@@ -1,13 +1,22 @@
 #include <iostream>
-#include "header/TextReaderFactory.h"
-#include "header/Reader.h"
+#include "header/StandardHash.h"
+#include "header/RabinKarpSearch.h"
+#include "header/FileNotFoundException.h"
 
 int main()
 {
-    Reader* reader = TextReaderFactory::forText("../test.txt");
-    for(const std::string& text : reader->read())
+    try
     {
-        std::cout << text << std::endl;
+        RabinKarpSearch<StandardHash> textProcessor = RabinKarpSearch<StandardHash>("../small_test.txt", "Jesteś");
+        std::vector<int> matches = textProcessor.search();
+
+        for (const int &i : matches) {
+            std::cout << i << std::endl;
+        }
+    }
+    catch(FileNotFoundException e)
+    {
+        std::cout<< e.what()<<std::endl;
     }
 
     return 0;
