@@ -10,7 +10,7 @@
 class FileNotFoundException : public std::runtime_error
 {
 public:
-    FileNotFoundException(const std::string& message) : runtime_error(message){};
+    explicit FileNotFoundException(const std::string& message) : runtime_error(message){};
 
 };
 

@@ -8,10 +8,16 @@
 #include <vector>
 #include <string>
 
+/**
+ * Base class for any hashing related class.
+ * Used in RabinKarpSearch class.
+ *
+ * @see RabinKarpSearch
+ */
 class Hash
 {
 protected:
-    int base;
+    int base; //counting system base (e.g binary system base=2)
 public:
     Hash() = default;
     Hash& forBase(const int& base);

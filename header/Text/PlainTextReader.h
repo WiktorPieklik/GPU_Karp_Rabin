@@ -10,7 +10,7 @@
 class PlainTextReader: public Reader
 {
 public:
-    PlainTextReader(const std::string &text);
+    explicit PlainTextReader(const std::string &text);
     std::vector<std::string>& read();
 };
 

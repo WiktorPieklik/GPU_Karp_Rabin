@@ -22,7 +22,7 @@ long long int StandardHash::getPolyValue(const std::string& pattern)
  * @param pattern1
  * @param pattern2
  *
- * @return int[]
+ * @return long long int[]
  */
 long long int * StandardHash::getPolyValues(const std::string &pattern1, const std::string &pattern2)
 {

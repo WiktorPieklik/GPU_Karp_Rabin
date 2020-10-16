@@ -13,7 +13,7 @@ class TextFileReader: public Reader
 private:
     std::ifstream file;
 public:
-    TextFileReader(const std::string &text);
+    explicit TextFileReader(const std::string &text);
     std::vector<std::string>& read();
 };
 

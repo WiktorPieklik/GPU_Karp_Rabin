@@ -22,6 +22,13 @@ bool TextReaderFactory::isTxtFile(std::string& text)
     return std::regex_match(text.c_str(), match, regex);
 }
 
+/**
+ * Determines if given string is path to file or either sample string to be processed.
+ * Every file that ends with .txt is considered to be path to file.
+ *
+ * @param text
+ * @return Reader*
+ */
 Reader* TextReaderFactory::forText(std::string text)
 {
     if(isTxtFile(text))
