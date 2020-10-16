@@ -2,10 +2,10 @@
 // Created by Wiktor Pieklik on 15/10/2020.
 //
 
-#include "../header/TextReaderFactory.h"
-#include "../header/FileNotFoundException.h"
-#include "../header/PlainTextReader.h"
-#include "../header/TextFileReader.h"
+#include "Text/TextReaderFactory.h"
+#include "Text/FileNotFoundException.h"
+#include "Text/PlainTextReader.h"
+#include "Text/TextFileReader.h"
 
 bool TextReaderFactory::fileExists(std::string& text)
 {

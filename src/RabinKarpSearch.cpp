@@ -3,7 +3,7 @@
 //
 
 #include "RabinKarpSearch.h"
-#include "../header/StandardHash.h"
+#include "Hash/StandardHash.h"
 
 #include <utility>
 

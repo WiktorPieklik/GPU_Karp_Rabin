@@ -2,7 +2,7 @@
 // Created by Wiktor Pieklik on 15/10/2020.
 //
 
-#include "../header/TextFileReader.h"
+#include "Text/TextFileReader.h"
 
 TextFileReader::TextFileReader(const std::string &text) : Reader(text), file(text) {}
 

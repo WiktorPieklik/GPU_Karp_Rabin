@@ -5,9 +5,9 @@
 #ifndef GPU_KARP_RABIN_RABINKARPSEARCH_H
 #define GPU_KARP_RABIN_RABINKARPSEARCH_H
 
-#include "Hash.h"
-#include "Reader.h"
-#include "TextReaderFactory.h"
+#include "Hash/Hash.h"
+#include "Text/Reader.h"
+#include "Text/TextReaderFactory.h"
 
 template <typename Hash>
 class RabinKarpSearch

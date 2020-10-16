@@ -2,7 +2,7 @@
 // Created by Wiktor Pieklik on 15/10/2020.
 //
 
-#include "../header/PlainTextReader.h"
+#include "Text/PlainTextReader.h"
 
 PlainTextReader::PlainTextReader(const std::string &text) : Reader(text)
 {

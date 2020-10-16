@@ -1,7 +1,7 @@
 #include <iostream>
-#include "header/StandardHash.h"
+#include "Hash/StandardHash.h"
 #include "header/RabinKarpSearch.h"
-#include "header/FileNotFoundException.h"
+#include "Text/FileNotFoundException.h"
 
 int main()
 {
