@@ -8,24 +8,69 @@
 #include <utility>
 
 template <typename Hash>
-RabinKarpSearch<Hash>::RabinKarpSearch(std::string file, std::string pattern): file(std::move(file)), pattern(std::move(pattern)){}
+RabinKarpSearch<Hash>::RabinKarpSearch(const std::string& file, const std::string& pattern): file(file), pattern(pattern)
+{
+    init();
+}
 
 template <typename Hash>
-int RabinKarpSearch<Hash>::calculateHash()
+void RabinKarpSearch<Hash>::init()
+{
+    text = readText();
+    calculateHashes();
+}
+
+template <typename Hash>
+std::vector<std::string>& RabinKarpSearch<Hash>::readText()
+{
+    Reader* reader = TextReaderFactory::forText(file);
+    return reader->read();
+}
+
+template <typename Hash>
+int RabinKarpSearch<Hash>::calculateHash(const std::string& text)
 {
     Hash hash = Hash();
     int hashVal = hash
-            .forX(3)
-            .getPolyValue(std::vector<int>{2,4,-10,0,0,3});
+            .forBase(base)
+            .getPolyValue(text);
 
     return hashVal % this->prime;
 
 }
 
 template <typename Hash>
+void RabinKarpSearch<Hash>::calculateHashes()
+{
+    Hash hash = Hash();
+    int* hashes = hash
+            .forBase(base)
+            .getPolyValues(pattern, text[index].substr(currentWindowPosition, pattern.size()));
+    patternHash = hashes[0] % this->prime;
+    tmpHash = hashes[1] % this->prime;
+}
+
+template <typename Hash>
+void RabinKarpSearch<Hash>::moveWindow()
+{
+    ++this->currentWindowPosition;
+    if(this->currentWindowPosition + pattern.size() > text[index].size())
+    {
+        ++this->index;
+        this->currentWindowPosition = 0;
+    }
+}
+
+template <typename Hash>
+int RabinKarpSearch<Hash>::getWindowEnd()
+{
+    return this->currentWindowPosition + pattern.size() - 1;
+}
+
+template <typename Hash>
 std::vector<int> RabinKarpSearch<Hash>::search()
 {
-    return std::vector<int>{calculateHash()};
+    return std::vector<int>{patternHash, tmpHash};
 }
 
 template class RabinKarpSearch<StandardHash>;

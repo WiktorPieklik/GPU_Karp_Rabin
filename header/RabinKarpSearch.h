@@ -13,17 +13,27 @@ template <typename Hash>
 class RabinKarpSearch
 {
 private:
-    const std::string file;
-    const std::string pattern;
+    const std::string& file;
+    const std::string& pattern;
+    std::vector<std::string> text;
+
+    int patternHash;
+    int tmpHash; //moving window's hash
+    int currentWindowPosition = 0; //starting index
+    int index = 0;
     const int prime = 23;
     const int base = 36; //input alphabet's length
 
-    int calculateHash();
+    void calculateHashes();
+    void init();
+    void moveWindow();
     int calculateRollingHash();
-    Reader readText();
+    int calculateHash(const std::string& text);
+    int getWindowEnd();
+    std::vector<std::string>& readText();
 
 public:
-    RabinKarpSearch(std::string file, std::string pattern);
+    RabinKarpSearch(const std::string& file, const std::string& pattern);
     std::vector<int> search();
 
 };
