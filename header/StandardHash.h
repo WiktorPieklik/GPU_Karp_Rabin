@@ -9,7 +9,8 @@
 
 class StandardHash: public Hash {
 public:
-    int getPolyValue(const std::vector<int>& coefficients);
+    int getPolyValue(const std::string& pattern);
+    int* getPolyValues(const std::string& pattern1, const std::string& pattern2);
 };
 
 #endif //GPU_KARP_RABIN_STANDARDHASH_H
