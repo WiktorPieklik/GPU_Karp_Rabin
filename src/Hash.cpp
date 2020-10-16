@@ -4,9 +4,9 @@
 
 #include "../header/Hash.h"
 
-Hash& Hash::forX(const int& x)
+Hash& Hash::forBase(const int& base)
 {
-    this->x = x;
+    this->base = base;
 
     return *this;
 }

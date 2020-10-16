@@ -6,13 +6,16 @@
 #define GPU_KARP_RABIN_HASH_H
 
 #include <vector>
+#include <string>
+
 class Hash
 {
 protected:
-    int x;
+    int base;
 public:
     Hash() = default;
-    Hash& forX(const int& x);
-    virtual int getPolyValue(const std::vector<int>& coefficients) = 0;
+    Hash& forBase(const int& base);
+    virtual int getPolyValue(const std::string& pattern) = 0;
+    virtual int* getPolyValues(const std::string& pattern1, const std::string& pattern2) = 0;
 };
 #endif //GPU_KARP_RABIN_HASH_H
