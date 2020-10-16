@@ -29,8 +29,8 @@ private:
     void calculateHashes();
     void init();
     void moveWindow();
-    int calculateRollingHash();
-    int calculateHash(const std::string& text);
+    void calculateRollingHash();
+    long long int calculateHash(const std::string& text);
     std::vector<std::string>& readText();
 
 public:

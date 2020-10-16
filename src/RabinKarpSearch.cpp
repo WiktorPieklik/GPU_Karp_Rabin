@@ -32,10 +32,10 @@ std::vector<std::string>& RabinKarpSearch<Hash>::readText()
 }
 
 template <typename Hash>
-int RabinKarpSearch<Hash>::calculateHash(const std::string& text)
+long long int RabinKarpSearch<Hash>::calculateHash(const std::string& text)
 {
     Hash hash = Hash();
-    int hashVal = hash
+    long long int hashVal = hash
             .forBase(base)
             .getPolyValue(text);
 
@@ -55,7 +55,7 @@ void RabinKarpSearch<Hash>::calculateHashes()
 }
 
 template <typename Hash>
-int RabinKarpSearch<Hash>::calculateRollingHash()
+void RabinKarpSearch<Hash>::calculateRollingHash()
 {
     if(this->currentWindowPosition != 0)
     {
