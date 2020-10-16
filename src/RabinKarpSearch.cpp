@@ -18,6 +18,10 @@ void RabinKarpSearch<Hash>::init()
 {
     text = readText();
     calculateHashes();
+    for(size_t i = 1; i < pattern.size(); ++i)
+    {
+        mostSignificantWeight *= this->base;
+    }
 }
 
 template <typename Hash>
@@ -43,11 +47,33 @@ template <typename Hash>
 void RabinKarpSearch<Hash>::calculateHashes()
 {
     Hash hash = Hash();
-    int* hashes = hash
+    long long int* hashes = hash
             .forBase(base)
             .getPolyValues(pattern, text[index].substr(currentWindowPosition, pattern.size()));
     patternHash = hashes[0] % this->prime;
     tmpHash = hashes[1] % this->prime;
+}
+
+template <typename Hash>
+int RabinKarpSearch<Hash>::calculateRollingHash()
+{
+    if(this->currentWindowPosition != 0)
+    {
+        tmpHash = (tmpHash - this->mostSignificantWeight * text[index][currentWindowPosition - 1]) * this->base + text[index][currentWindowPosition + pattern.size() - 1];
+        tmpHash = tmpHash % this->prime;
+
+        if(tmpHash < 0)
+        {
+            tmpHash = tmpHash + this->prime;
+        }
+    }
+    else
+    {
+        if(index < text.size())
+        {
+            tmpHash = calculateHash(text[index].substr(currentWindowPosition, pattern.size()));
+        }
+    }
 }
 
 template <typename Hash>
@@ -62,15 +88,23 @@ void RabinKarpSearch<Hash>::moveWindow()
 }
 
 template <typename Hash>
-int RabinKarpSearch<Hash>::getWindowEnd()
-{
-    return this->currentWindowPosition + pattern.size() - 1;
-}
-
-template <typename Hash>
 std::vector<int> RabinKarpSearch<Hash>::search()
 {
-    return std::vector<int>{patternHash, tmpHash};
+    while(index < text.size())
+    {
+        if(tmpHash == patternHash)
+        {
+            if(pattern == text[index].substr(currentWindowPosition, pattern.size()))
+            {
+                //match found
+                matches.push_back(currentWindowPosition);
+            }
+        }
+        moveWindow();
+        calculateRollingHash();
+    }
+
+    return matches;
 }
 
 template class RabinKarpSearch<StandardHash>;

@@ -17,19 +17,20 @@ private:
     const std::string& pattern;
     std::vector<std::string> text;
 
-    int patternHash;
-    int tmpHash; //moving window's hash
+    std::vector<int> matches;
+    long long int patternHash;
+    long long int tmpHash; //moving window's hash
     int currentWindowPosition = 0; //starting index
     int index = 0;
     const int prime = 23;
     const int base = 36; //input alphabet's length
+    long long int mostSignificantWeight = 1;
 
     void calculateHashes();
     void init();
     void moveWindow();
     int calculateRollingHash();
     int calculateHash(const std::string& text);
-    int getWindowEnd();
     std::vector<std::string>& readText();
 
 public:
