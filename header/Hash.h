@@ -15,7 +15,7 @@ protected:
 public:
     Hash() = default;
     Hash& forBase(const int& base);
-    virtual int getPolyValue(const std::string& pattern) = 0;
-    virtual int* getPolyValues(const std::string& pattern1, const std::string& pattern2) = 0;
+    virtual long long int getPolyValue(const std::string& pattern) = 0;
+    virtual long long int* getPolyValues(const std::string& pattern1, const std::string& pattern2) = 0;
 };
 #endif //GPU_KARP_RABIN_HASH_H

@@ -4,9 +4,9 @@
 
 #include "../header/StandardHash.h"
 
-int StandardHash::getPolyValue(const std::string& pattern)
+long long int StandardHash::getPolyValue(const std::string& pattern)
 {
-    int result = (int)pattern[0];
+    long long int result = (int)pattern[0];
     for(size_t i = 1; i<pattern.size(); ++i)
     {
         result = result * this->base + (int)pattern[i];
@@ -24,10 +24,10 @@ int StandardHash::getPolyValue(const std::string& pattern)
  *
  * @return int[]
  */
-int * StandardHash::getPolyValues(const std::string &pattern1, const std::string &pattern2)
+long long int * StandardHash::getPolyValues(const std::string &pattern1, const std::string &pattern2)
 {
-    int result1 = (int)pattern1[0];
-    int result2 = (int)pattern2[0];
+    long long int result1 = (int)pattern1[0];
+    long long int result2 = (int)pattern2[0];
 
     for(size_t i = 1; i < pattern1.size(); ++i)
     {
@@ -35,5 +35,5 @@ int * StandardHash::getPolyValues(const std::string &pattern1, const std::string
         result2 = result2 * this->base + pattern2[i];
     }
 
-    return new int[]{result1, result2};
+    return new long long int[]{result1, result2};
 }
