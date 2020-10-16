@@ -14,7 +14,7 @@ int main()
             std::cout << i << std::endl;
         }
     }
-    catch(FileNotFoundException e)
+    catch(FileNotFoundException &e)
     {
         std::cout<< e.what()<<std::endl;
     }
