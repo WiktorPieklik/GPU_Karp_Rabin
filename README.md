@@ -1,5 +1,6 @@
-# Akceleracja obliczeń w przetwarzaniu danych - Projekt
+# Calculations acceleration in data processing - Project
 
-## Technologie
+## Tech stack
 - nVidia CUDA
 - c++
+- CMake
