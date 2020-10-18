@@ -2,7 +2,7 @@
 // Created by Wiktor Pieklik on 15/10/2020.
 //
 
-#include "Text/PlainTextReader.h"
+#include "PlainTextReader.h"
 
 /**
  * Reads input string and passes it further as one element vector

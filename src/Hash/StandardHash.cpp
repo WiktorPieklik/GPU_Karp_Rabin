@@ -2,7 +2,7 @@
 // Created by Wiktor Pieklik on 16/10/2020.
 //
 
-#include "Hash/StandardHash.h"
+#include "StandardHash.h"
 
 long long int StandardHash::getPolyValue(const std::string& pattern)
 {
@@ -24,7 +24,7 @@ long long int StandardHash::getPolyValue(const std::string& pattern)
  *
  * @return long long int[]
  */
-long long int * StandardHash::getPolyValues(const std::string &pattern1, const std::string &pattern2)
+std::tuple<long long int, long long int> StandardHash::getPolyValues(const std::string &pattern1, const std::string &pattern2)
 {
     long long int result1 = (int)pattern1[0];
     long long int result2 = (int)pattern2[0];
@@ -35,5 +35,5 @@ long long int * StandardHash::getPolyValues(const std::string &pattern1, const s
         result2 = result2 * this->base + pattern2[i];
     }
 
-    return new long long int[]{result1, result2};
+    return std::make_tuple(result1, result2);
 }

@@ -2,7 +2,7 @@
 // Created by Wiktor Pieklik on 15/10/2020.
 //
 
-#include "Text/TextFileReader.h"
+#include "TextFileReader.h"
 
 /**
  * Reads input string as path to text file (.txt) and return vector of strings.
