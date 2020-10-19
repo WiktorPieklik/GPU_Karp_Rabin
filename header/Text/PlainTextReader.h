@@ -6,8 +6,8 @@
 class PlainTextReader: public Reader
 {
 public:
-    explicit PlainTextReader(const std::string &text);
-    std::vector<std::string>& read();
+    explicit PlainTextReader(const std::string& text);
+    std::vector<std::string> read() override;
 };
 
 #endif //GPU_KARP_RABIN_PLAINTEXTREADER_H

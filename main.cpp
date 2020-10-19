@@ -8,9 +8,10 @@ int main()
     try
     {
         auto textProcessor = RabinKarpSearch<StandardHash>("../test.txt", "ipsum");
-        std::vector<int> matches = textProcessor.search();
+        std::vector<size_t> matches = textProcessor.search();
 
-        for (const int &i : matches) {
+
+        for (auto i : matches) {
             std::cout << i << std::endl;
         }
     }

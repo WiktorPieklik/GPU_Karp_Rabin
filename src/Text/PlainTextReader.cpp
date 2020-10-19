@@ -5,12 +5,12 @@
  *
  * @param text
  */
-PlainTextReader::PlainTextReader(const std::string &text) : Reader(text)
+PlainTextReader::PlainTextReader(const std::string& text) : Reader()
 {
     textVector.push_back(text);
 }
 
-std::vector<std::string>& PlainTextReader::read()
+std::vector<std::string> PlainTextReader::read()
 {
     return textVector;
 }

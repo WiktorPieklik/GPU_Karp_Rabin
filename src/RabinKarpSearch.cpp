@@ -4,7 +4,7 @@
 #include <tuple>
 
 template <typename Hash>
-RabinKarpSearch<Hash>::RabinKarpSearch(const std::string& file, const std::string& pattern): file(file), pattern(pattern)
+RabinKarpSearch<Hash>::RabinKarpSearch(std::string file, const std::string& pattern): file(file), pattern(pattern)
 {
     init();
 }
@@ -21,9 +21,11 @@ void RabinKarpSearch<Hash>::init()
 }
 
 template <typename Hash>
-std::vector<std::string>& RabinKarpSearch<Hash>::readText()
+std::vector<std::string> RabinKarpSearch<Hash>::readText()
 {
-    Reader* reader = TextReaderFactory::forText(file);
+    std::unique_ptr<Reader> reader = TextReaderFactory::forText(file);
+    if(!reader)
+        throw std::runtime_error("Couldn't create a reader!");
     return reader->read();
 }
 
@@ -31,7 +33,7 @@ template <typename Hash>
 long long int RabinKarpSearch<Hash>::calculateHash(const std::string& text)
 {
     Hash hash = Hash();
-    long long int hashVal = hash
+    long long hashVal = hash
             .forBase(base)
             .getPolyValue(text);
 
@@ -43,7 +45,7 @@ template <typename Hash>
 void RabinKarpSearch<Hash>::calculateHashes()
 {
     Hash hash = Hash();
-    std::tuple<long long int, long long int> hashes = hash
+    std::tuple<long long, long long> hashes = hash
             .forBase(base)
             .getPolyValues(pattern, text[lineNo].substr(currentWindowPosition, pattern.size()));
     patternHash = std::get<0>(hashes) % this->prime;
@@ -84,7 +86,7 @@ void RabinKarpSearch<Hash>::moveWindow()
 }
 
 template <typename Hash>
-std::vector<int> RabinKarpSearch<Hash>::search()
+std::vector<size_t> RabinKarpSearch<Hash>::search()
 {
     while(lineNo < text.size())
     {
