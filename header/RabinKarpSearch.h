@@ -15,9 +15,9 @@ private:
 
     std::vector<int> matches;
     long long int patternHash;
-    long long int tmpHash; //moving window's hash
-    int currentWindowPosition = 0; //starting index
-    int index = 0;
+    long long int windowHash; //moving window's hash
+    int currentWindowPosition = 0; //starting lineNo
+    int lineNo = 0;
     const int prime = 23;
     const int base = 36; //input alphabet's length
     long long int mostSignificantWeight = 1;
