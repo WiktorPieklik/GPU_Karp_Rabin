@@ -17,7 +17,7 @@ private:
     long long int patternHash;
     long long int windowHash; //moving window's hash
     int currentWindowPosition = 0; //starting lineNo
-    int lineNo = 0;
+    int lineNo = 0; //line's number in input file (file is read line by line)
     const int prime = 23;
     const int base = 36; //input alphabet's length
     long long int mostSignificantWeight = 1;
