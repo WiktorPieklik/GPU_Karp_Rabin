@@ -3,9 +3,9 @@
 //
 
 #include "RabinKarpSearch.h"
-#include "Hash/StandardHash.h"
+#include "StandardHash.h"
 
-#include <utility>
+#include <tuple>
 
 template <typename Hash>
 RabinKarpSearch<Hash>::RabinKarpSearch(const std::string& file, const std::string& pattern): file(file), pattern(pattern)
@@ -47,11 +47,11 @@ template <typename Hash>
 void RabinKarpSearch<Hash>::calculateHashes()
 {
     Hash hash = Hash();
-    long long int* hashes = hash
+    std::tuple<long long int, long long int> hashes = hash
             .forBase(base)
             .getPolyValues(pattern, text[index].substr(currentWindowPosition, pattern.size()));
-    patternHash = hashes[0] % this->prime;
-    tmpHash = hashes[1] % this->prime;
+    patternHash = std::get<0>(hashes) % this->prime;
+    tmpHash = std::get<1>(hashes) % this->prime;
 }
 
 template <typename Hash>

@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <string>
+#include <tuple>
 
 /**
  * Base class for any hashing related class.
@@ -22,6 +23,6 @@ public:
     Hash() = default;
     Hash& forBase(const int& base);
     virtual long long int getPolyValue(const std::string& pattern) = 0;
-    virtual long long int* getPolyValues(const std::string& pattern1, const std::string& pattern2) = 0;
+    virtual std::tuple<long long int, long long int> getPolyValues(const std::string& pattern1, const std::string& pattern2) = 0;
 };
 #endif //GPU_KARP_RABIN_HASH_H
