@@ -1,7 +1,3 @@
-//
-// Created by Wiktor Pieklik on 16/10/2020.
-//
-
 #ifndef GPU_KARP_RABIN_RABINKARPSEARCH_H
 #define GPU_KARP_RABIN_RABINKARPSEARCH_H
 
