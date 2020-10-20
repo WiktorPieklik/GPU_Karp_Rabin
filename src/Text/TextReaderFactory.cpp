@@ -1,7 +1,10 @@
-#include "Text/TextReaderFactory.h"
-#include "Text/FileNotFoundException.h"
-#include "Text/PlainTextReader.h"
-#include "Text/TextFileReader.h"
+#include <regex>
+#include <sys/stat.h>
+
+#include "TextReaderFactory.h"
+#include "FileNotFoundException.h"
+#include "PlainTextReader.h"
+#include "TextFileReader.h"
 
 bool TextReaderFactory::fileExists(std::string& text)
 {

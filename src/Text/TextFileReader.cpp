@@ -1,4 +1,4 @@
-#include "Text/TextFileReader.h"
+#include "TextFileReader.h"
 
 /**
  * Reads input string as path to text file (.txt) and return vector of strings.

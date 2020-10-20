@@ -1,4 +1,4 @@
-#include "Text/PlainTextReader.h"
+#include "PlainTextReader.h"
 
 /**
  * Reads input string and passes it further as one element vector

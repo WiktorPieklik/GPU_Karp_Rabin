@@ -1,9 +1,6 @@
 #ifndef GPU_KARP_RABIN_TEXTREADERFACTORY_H
 #define GPU_KARP_RABIN_TEXTREADERFACTORY_H
 
-#include <fstream>
-#include <sys/stat.h>
-#include <regex>
 #include "Reader.h"
 
 class TextReaderFactory
