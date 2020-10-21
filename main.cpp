@@ -7,7 +7,7 @@ int main()
 {
     try
     {
-        auto textProcessor = RabinKarpSearch<StandardHash>("../small_test.txt", "Jesteś");
+        auto textProcessor = RabinKarpSearch<StandardHash>("../test.txt", "ipsum");
         std::vector<int> matches = textProcessor.search();
 
         for (const int &i : matches) {

@@ -1,7 +1,3 @@
-//
-// Created by Wiktor Pieklik on 16/10/2020.
-//
-
 #include "StandardHash.h"
 
 long long int StandardHash::getPolyValue(const std::string& pattern)

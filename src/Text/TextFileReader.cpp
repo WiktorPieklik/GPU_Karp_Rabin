@@ -1,7 +1,3 @@
-//
-// Created by Wiktor Pieklik on 15/10/2020.
-//
-
 #include "TextFileReader.h"
 
 /**

@@ -1,7 +1,3 @@
-//
-// Created by Wiktor Pieklik on 16/10/2020.
-//
-
 #include "RabinKarpSearch.h"
 #include "StandardHash.h"
 
@@ -49,9 +45,9 @@ void RabinKarpSearch<Hash>::calculateHashes()
     Hash hash = Hash();
     std::tuple<long long int, long long int> hashes = hash
             .forBase(base)
-            .getPolyValues(pattern, text[index].substr(currentWindowPosition, pattern.size()));
+            .getPolyValues(pattern, text[lineNo].substr(currentWindowPosition, pattern.size()));
     patternHash = std::get<0>(hashes) % this->prime;
-    tmpHash = std::get<1>(hashes) % this->prime;
+    windowHash = std::get<1>(hashes) % this->prime;
 }
 
 template <typename Hash>
@@ -59,19 +55,19 @@ void RabinKarpSearch<Hash>::calculateRollingHash()
 {
     if(this->currentWindowPosition != 0)
     {
-        tmpHash = (tmpHash - this->mostSignificantWeight * text[index][currentWindowPosition - 1]) * this->base + text[index][currentWindowPosition + pattern.size() - 1];
-        tmpHash = tmpHash % this->prime;
+        windowHash = (windowHash - this->mostSignificantWeight * text[lineNo][currentWindowPosition - 1]) * this->base + text[lineNo][currentWindowPosition + pattern.size() - 1];
+        windowHash = windowHash % this->prime;
 
-        if(tmpHash < 0)
+        if(windowHash < 0)
         {
-            tmpHash = tmpHash + this->prime;
+            windowHash = windowHash + this->prime;
         }
     }
     else
     {
-        if(index < text.size())
+        if(lineNo < text.size())
         {
-            tmpHash = calculateHash(text[index].substr(currentWindowPosition, pattern.size()));
+            windowHash = calculateHash(text[lineNo].substr(currentWindowPosition, pattern.size()));
         }
     }
 }
@@ -80,9 +76,9 @@ template <typename Hash>
 void RabinKarpSearch<Hash>::moveWindow()
 {
     ++this->currentWindowPosition;
-    if(this->currentWindowPosition + pattern.size() > text[index].size())
+    if(this->currentWindowPosition + pattern.size() > text[lineNo].size())
     {
-        ++this->index;
+        ++this->lineNo;
         this->currentWindowPosition = 0;
     }
 }
@@ -90,11 +86,11 @@ void RabinKarpSearch<Hash>::moveWindow()
 template <typename Hash>
 std::vector<int> RabinKarpSearch<Hash>::search()
 {
-    while(index < text.size())
+    while(lineNo < text.size())
     {
-        if(tmpHash == patternHash)
+        if(windowHash == patternHash)
         {
-            if(pattern == text[index].substr(currentWindowPosition, pattern.size()))
+            if(pattern == text[lineNo].substr(currentWindowPosition, pattern.size()))
             {
                 //match found
                 matches.push_back(currentWindowPosition);

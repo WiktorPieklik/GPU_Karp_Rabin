@@ -1,7 +1,3 @@
-//
-// Created by Wiktor Pieklik on 15/10/2020.
-//
-
 #ifndef GPU_KARP_RABIN_TEXTREADERFACTORY_H
 #define GPU_KARP_RABIN_TEXTREADERFACTORY_H
 
