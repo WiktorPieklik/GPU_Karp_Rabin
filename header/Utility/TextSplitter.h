@@ -17,7 +17,7 @@ private:
 
     int rangeWidth(long long int textLength);
 public:
-    std::vector<std::tuple<long long int, long long int>>& splitText(long long int textLength, int patternLength);
+    std::vector<std::tuple<size_t, size_t>>& splitText(long long int textLength, int patternLength);
 
 };
 
