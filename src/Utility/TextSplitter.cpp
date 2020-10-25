@@ -12,14 +12,11 @@ std::vector<std::tuple<size_t, size_t>>& TextSplitter::splitText(long long int t
 
     for(int i = 0; i < textLength; i += width) {
         if((i + patternLength - 1) < textLength && (i + width - 1 + patternLength - 1) < textLength) {
-            ranges.push_back(std::make_tuple(i, i + width - 1));
         }
         else if((i + patternLength - 1) < textLength && ((i + width - 1 + patternLength - 1) >= textLength)) {
-            ranges.push_back(std::make_tuple(i, textLength - patternLength));
         } else if((i + patternLength - 1) >= textLength) {
-            ranges.push_back(std::make_tuple(-1, -1));
         }
     }
 
-    return ranges;
+
 }

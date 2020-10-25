@@ -12,7 +12,6 @@
 class TextSplitter {
 
 private:
-    std::vector<std::tuple<long long int, long long int>> ranges;
     static const int numOfThreads = 32;
 
     int rangeWidth(long long int textLength);
