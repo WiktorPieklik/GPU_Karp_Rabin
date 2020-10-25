@@ -10,9 +10,6 @@ std::pair<int, int> TextSplitter::lenOfChain(int windows) {
     return std::make_pair(rangeWidth, rangesWithBonus - 1);
 }
 
-// It's hard cut the text into substrings of equal size without getting out of range sometimes,
-// so when we get out of range a <-1, -1> is pushed back to indicate that this tuple is wrong and thread should not process it
-
 std::vector<std::tuple<size_t, size_t>> TextSplitter::splitText(long long int textLength, int patternLength) {
     std::vector<std::tuple<size_t, size_t>> ranges;
     int windows = numOfWindows(textLength, patternLength);
