@@ -14,16 +14,16 @@ std::vector<std::pair<size_t, size_t>> TextSplitter::splitText(long long int tex
     std::vector<std::pair<size_t, size_t>> ranges;
     int _numOfWindows = numOfWindows(textLength, patternLength);
     std::pair<int, int> _lenOfChain = lenOfChain(_numOfWindows);
-    int currenPosition = 0;
+    int currentPosition = 0;
     for(int i = 0; i < numOfThreads; i++) {
         if(_numOfWindows > i) {
             if (_lenOfChain.second > 0) {
-                ranges.emplace_back(std::make_pair(currenPosition, currenPosition + _lenOfChain.first));
-                currenPosition = currenPosition + _lenOfChain.first + 1;
+                ranges.emplace_back(std::make_pair(currentPosition, currentPosition + _lenOfChain.first));
+                currentPosition = currentPosition + _lenOfChain.first + 1;
                 _lenOfChain.second--;
             } else {
-                ranges.emplace_back(std::make_pair(currenPosition, currenPosition + _lenOfChain.first - 1));
-                currenPosition = currenPosition + _lenOfChain.first;
+                ranges.emplace_back(std::make_pair(currentPosition, currentPosition + _lenOfChain.first - 1));
+                currentPosition = currentPosition + _lenOfChain.first;
             }
         } else {
             break;
