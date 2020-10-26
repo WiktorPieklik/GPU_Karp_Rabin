@@ -9,4 +9,4 @@ add_compile_options(-Wall -Wextra -Wpedantic)
 
 add_subdirectory(src)
 
-target_link_libraries(main PRIVATE sources text hash)
+target_link_libraries(main PRIVATE sources text hash utility)
