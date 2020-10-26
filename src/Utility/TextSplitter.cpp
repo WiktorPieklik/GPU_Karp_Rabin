@@ -7,7 +7,7 @@ int TextSplitter::numOfWindows(long long int textLength, int patternLength) {
 std::pair<int, int> TextSplitter::lenOfChain(int windows) {
     int rangeWidth = windows / numOfThreads;
     int rangesWithBonus = windows % numOfThreads;
-    return std::make_pair(rangeWidth, rangesWithBonus - 1);
+    return std::make_pair(rangeWidth, rangesWithBonus);
 }
 
 std::vector<std::pair<size_t, size_t>> TextSplitter::splitText(long long int textLength, int patternLength) {
@@ -17,7 +17,7 @@ std::vector<std::pair<size_t, size_t>> TextSplitter::splitText(long long int tex
     int currenPosition = 0;
     for(int i = 0; i < numOfThreads; i++) {
         if(windows > i) {
-            if (chains.second >= 0) {
+            if (chains.second > 0) {
                 ranges.emplace_back(std::make_pair(currenPosition, currenPosition + chains.first));
                 currenPosition = currenPosition + chains.first + 1;
                 chains.second--;
