@@ -10,7 +10,7 @@ private:
     static const int numOfThreads = 32;
 
     size_t numOfWindows(size_t textLength, int patternLength);
-    std::pair<int, int> lenOfChain(int numOfWindows);
+    std::pair<size_t, size_t> lenOfChains(size_t numOfWindows);
 public:
     std::vector<std::pair<size_t, size_t>> splitText(long long int textLength, int patternLength);
 
