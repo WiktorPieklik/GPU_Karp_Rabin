@@ -1,5 +1,5 @@
 #include "TextSplitter.h"
-#include <iostream>
+
 int TextSplitter::numOfWindows(long long int textLength, int patternLength) {
     return textLength - patternLength + 1;
 }
