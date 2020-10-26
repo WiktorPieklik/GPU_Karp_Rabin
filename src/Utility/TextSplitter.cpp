@@ -13,17 +13,17 @@ std::pair<int, int> TextSplitter::lenOfChain(int numOfWindows) {
 std::vector<std::pair<size_t, size_t>> TextSplitter::splitText(long long int textLength, int patternLength) {
     std::vector<std::pair<size_t, size_t>> ranges;
     int _numOfWindows = numOfWindows(textLength, patternLength);
-    std::pair<int, int> chains = lenOfChain(_numOfWindows);
+    std::pair<int, int> _lenOfChain = lenOfChain(_numOfWindows);
     int currenPosition = 0;
     for(int i = 0; i < numOfThreads; i++) {
         if(_numOfWindows > i) {
-            if (chains.second > 0) {
-                ranges.emplace_back(std::make_pair(currenPosition, currenPosition + chains.first));
-                currenPosition = currenPosition + chains.first + 1;
-                chains.second--;
+            if (_lenOfChain.second > 0) {
+                ranges.emplace_back(std::make_pair(currenPosition, currenPosition + _lenOfChain.first));
+                currenPosition = currenPosition + _lenOfChain.first + 1;
+                _lenOfChain.second--;
             } else {
-                ranges.emplace_back(std::make_pair(currenPosition, currenPosition + chains.first - 1));
-                currenPosition = currenPosition + chains.first;
+                ranges.emplace_back(std::make_pair(currenPosition, currenPosition + _lenOfChain.first - 1));
+                currenPosition = currenPosition + _lenOfChain.first;
             }
         } else {
             break;
