@@ -1,12 +1,12 @@
 #include "TextSplitter.h"
 
-size_t TextSplitter::numOfWindows(size_t textLength, int patternLength) {
+size_t TextSplitter::numOfWindows(size_t textLength, size_t patternLength) {
     return textLength - patternLength + 1;
 }
 
 std::pair<size_t, size_t> TextSplitter::lenOfChains(size_t numOfWindows) {
-    int rangeWidth = numOfWindows / numOfThreads;
-    int rangesWithBonus = numOfWindows % numOfThreads;
+    auto rangeWidth = numOfWindows / numOfThreads;
+    auto rangesWithBonus = numOfWindows % numOfThreads;
     return std::make_pair(rangeWidth, rangesWithBonus);
 }
 
@@ -14,22 +14,22 @@ std::pair<size_t, size_t> TextSplitter::lenOfChains(size_t numOfWindows) {
 // describes first index of last window. When number of windows returned from numOfWindows method is greater
 // or equal than value of numOfThreads variable, it returns exactly numOfThreads pairs and when value returned from numOfWindows
 // is lesser than numOfThreads it returns exactly numOfWindows pairs.
-std::vector<std::pair<size_t, size_t>> TextSplitter::splitText(long long int textLength, int patternLength) {
+[[maybe_unused]] std::vector<std::pair<size_t, size_t>> TextSplitter::splitText(size_t textLength, size_t patternLength) {
     std::vector<std::pair<size_t, size_t>> ranges;
-    int _numOfWindows = numOfWindows(textLength, patternLength);
-    std::pair<int, int> _lenOfChains = lenOfChains(_numOfWindows);
-    int currentPosition = 0;
-    int i =0;
-    while(i < numOfThreads && _numOfWindows > i) {
-            if (_lenOfChains.second > 0) {
-                ranges.emplace_back(std::make_pair(currentPosition, currentPosition + _lenOfChains.first));
-                currentPosition = currentPosition + _lenOfChains.first + 1;
-                _lenOfChains.second--;
+    size_t numberOfWindows = numOfWindows(textLength, patternLength);
+    std::pair<size_t, size_t> chainsLength = lenOfChains(numberOfWindows);
+    size_t currentPosition = 0;
+    size_t i = 0;
+    while(i < numOfThreads && numberOfWindows > i) {
+            if (chainsLength.second > 0) {
+                ranges.emplace_back(std::make_pair(currentPosition, currentPosition + chainsLength.first));
+                currentPosition = currentPosition + chainsLength.first + 1;
+                chainsLength.second--;
             } else {
-                ranges.emplace_back(std::make_pair(currentPosition, currentPosition + _lenOfChains.first - 1));
-                currentPosition = currentPosition + _lenOfChains.first;
+                ranges.emplace_back(std::make_pair(currentPosition, currentPosition + chainsLength.first - 1));
+                currentPosition = currentPosition + chainsLength.first;
             }
         i++;
     }
-    return std::move(ranges);
+    return ranges;
 }
