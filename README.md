@@ -2,5 +2,5 @@
 
 ## Tech stack
 - nVidia CUDA
-- c++
+- c++ (gcc >= v8.0 or cygwin >= v3.1.6)
 - CMake
