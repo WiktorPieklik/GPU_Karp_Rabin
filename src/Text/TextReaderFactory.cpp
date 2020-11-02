@@ -1,25 +1,9 @@
-#include <regex>
-#include <sys/stat.h>
-
 #include "TextReaderFactory.h"
 #include "FileNotFoundException.h"
 #include "PlainTextReader.h"
 #include "TextFileReader.h"
 
-bool TextReaderFactory::fileExists(std::string& text)
-{
-    struct stat buffer{};
-
-    return (stat (text.c_str(), &buffer) == 0);
-}
-
-bool TextReaderFactory::isTxtFile(std::string& text)
-{
-    std::regex regex(".*(.txt)$");
-    std::cmatch match;
-
-    return std::regex_match(text.c_str(), match, regex);
-}
+#include <filesystem>
 
 /**
  * Determines if given string is path to file or either sample string to be processed.
@@ -28,19 +12,20 @@ bool TextReaderFactory::isTxtFile(std::string& text)
  * @param text
  * @return Reader*
  */
-Reader* TextReaderFactory::forText(std::string text)
+std::unique_ptr<Reader> TextReaderFactory::forText(const std::string& text)
 {
-    if(isTxtFile(text))
+    std::filesystem::path path(text);
+    if(path.extension() == ".txt")
     {
-        if(fileExists(text))
+        if(std::filesystem::exists(path))
         {
-            return new TextFileReader(text);
+            return std::make_unique<TextFileReader>(text);
         }
 
         throw FileNotFoundException(text + " cannot be found!");
     }
     else
     {
-        return new PlainTextReader(text);
+        return std::make_unique<PlainTextReader>(text);
     }
 }

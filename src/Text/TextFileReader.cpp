@@ -6,9 +6,9 @@
  *
  * @param text
  */
-TextFileReader::TextFileReader(const std::string &text) : Reader(text), file(text) {}
+TextFileReader::TextFileReader(const std::filesystem::path& path) : Reader(), file(path) {}
 
-std::vector<std::string> & TextFileReader::read()
+std::vector<std::string> TextFileReader::read()
 {
     std::string line;
     while(std::getline(file, line))
