@@ -7,7 +7,7 @@ int main()
 {
     try
     {
-        auto textProcessor = RabinKarpSearch<StandardHash>("../test.txt", "ipsum");
+        auto textProcessor = RabinKarpSearch("../test.txt", "ipsum", std::make_unique<StandardHash>());
         std::vector<size_t> matches = textProcessor.search();
 
 

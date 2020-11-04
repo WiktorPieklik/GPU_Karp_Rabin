@@ -1,6 +1,6 @@
 #include "StandardHash.h"
 
-long long StandardHash::getPolyValue(const std::string& pattern)
+long long StandardHash::getPolyValue(std::string_view pattern)
 {
     long long result = static_cast<int>(pattern[0]);
     for(size_t i = 1; i<pattern.size(); ++i)
@@ -20,7 +20,7 @@ long long StandardHash::getPolyValue(const std::string& pattern)
  *
  * @return long long int[]
  */
-std::tuple<long long, long long> StandardHash::getPolyValues(const std::string &pattern1, const std::string &pattern2)
+std::tuple<long long, long long> StandardHash::getPolyValues(std::string_view pattern1, std::string_view pattern2)
 {
     long long result1 = static_cast<int>(pattern1[0]);
     long long result2 = static_cast<int>(pattern2[0]);
