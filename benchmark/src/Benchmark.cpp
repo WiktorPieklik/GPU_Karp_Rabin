@@ -5,7 +5,7 @@
 
 int main()
 {
-    std::string filePath = "../test.txt", pattern = "ipsum";
+    std::string filePath = "../small_test.txt", pattern = "Jesteś";
     BenchmarkCase benchmarkCase = BenchmarkCase();
     RabinKarpSearch<StandardHash>* textProcessor = nullptr;
     benchmarkCase.setSameTestRepeats(10)
@@ -24,6 +24,6 @@ int main()
     for(size_t i = 0; i < avgResults.size(); ++i) {
         printf("Iteration %zu,  average time: %fs\n", i+1, avgResults[i]);
     }
-        benchmarkCase.saveCaseResultsToFile("tescik");
+        benchmarkCase.saveCaseResultsToFile("small_test|Jestes");
     return 0;
 }
