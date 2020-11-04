@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 project(gpu_karp_rabin VERSION 1.0)
 set(CMAKE_CXX_STANDARD 20)
+file(MAKE_DIRECTORY ${PROJECT_SOURCE_DIR}/benchmark/results)
 
 add_compile_options(-Wall -Wextra -Wpedantic)
 
