@@ -1,16 +1,17 @@
 #include "PlainTextReader.h"
 
 /**
- * Reads input string and passes it further as one element vector
+ * Reads input string
  *
  * @param text
  */
-PlainTextReader::PlainTextReader(const std::string& text) : Reader()
+
+
+std::string PlainTextReader::read()
 {
-    textVector.push_back(text);
+    return text;
 }
 
-std::vector<std::string> PlainTextReader::read()
-{
-    return textVector;
+PlainTextReader::PlainTextReader(std::string text) :text(std::move(text)) {
+
 }

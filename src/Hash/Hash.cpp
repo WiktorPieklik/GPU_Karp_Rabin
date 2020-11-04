@@ -1,6 +1,6 @@
 #include "Hash.h"
 
-Hash& Hash::forBase(const int& base)
+Hash& Hash::forBase(int base)
 {
     this->base = base;
 

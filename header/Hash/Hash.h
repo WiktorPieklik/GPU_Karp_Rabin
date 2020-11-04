@@ -1,8 +1,7 @@
 #ifndef GPU_KARP_RABIN_HASH_H
 #define GPU_KARP_RABIN_HASH_H
 
-#include <vector>
-#include <string>
+#include <string_view>
 #include <tuple>
 
 /**
@@ -14,11 +13,10 @@
 class Hash
 {
 protected:
-    int base; //counting system base (e.g binary system base=2)
+    int base{2}; //counting system BASE (e.g binary system BASE=2)
 public:
-    Hash() = default;
-    Hash& forBase(const int& base);
-    virtual long long int getPolyValue(const std::string& pattern) = 0;
-    virtual std::tuple<long long int, long long int> getPolyValues(const std::string& pattern1, const std::string& pattern2) = 0;
+    Hash& forBase(int base);
+    virtual long long getPolyValue(std::string_view pattern) = 0;
+    virtual std::tuple<long long, long long> getPolyValues(std::string_view pattern1, std::string_view pattern2) = 0;
 };
 #endif //GPU_KARP_RABIN_HASH_H
