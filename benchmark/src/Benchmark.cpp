@@ -24,6 +24,7 @@ int main()
     for(size_t i = 0; i < avgResults.size(); ++i) {
         printf("Iteration %zu,  average time: %fs\n", i+1, avgResults[i]);
     }
-        benchmarkCase.saveCaseResultsToFile("small_test|Jestes");
+    benchmarkCase.saveCaseResultsToFile("small_test|Jestes");
+
     return 0;
 }
