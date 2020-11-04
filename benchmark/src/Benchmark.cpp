@@ -3,7 +3,6 @@
 #include "BenchmarkCase.h"
 #include <string>
 #include <vector>
-#include <map>
 
 int main()
 {
@@ -11,12 +10,12 @@ int main()
     std::vector<std::string> patterns = {"ipsum", "turpis", "lorem", "eros", "amet", "purus", "ex", "ac"};
     auto it = patterns.begin();
 
-    RabinKarpSearch<StandardHash>* textProcessor;
+    RabinKarpSearch* textProcessor;
     BenchmarkCase benchmarkCase = BenchmarkCase();
     benchmarkCase.setTestRepeats(100)
             ->setPatterns(patterns)
             ->beforeEach([&textProcessor, &filePath, &it]() -> void {
-                textProcessor = new RabinKarpSearch<StandardHash>(filePath, *it);
+                textProcessor = new RabinKarpSearch(filePath, *it, std::make_unique<StandardHash>());
             })
             ->setFunctionUnderBenchmark([&textProcessor]() -> void {
                 textProcessor->search();
@@ -27,7 +26,7 @@ int main()
             ->afterTest([&it]() -> void{
                 it++;
             });
-    std::map<std::string, double> avgResults = benchmarkCase.test();
+    std::vector<std::pair<std::string, double>> avgResults = benchmarkCase.test();
     benchmarkCase.saveResultsToFile("small_test");
 
     return 0;

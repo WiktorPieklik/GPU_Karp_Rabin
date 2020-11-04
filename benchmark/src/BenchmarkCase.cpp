@@ -21,7 +21,7 @@ BenchmarkCase* BenchmarkCase::setTestRepeats(size_t i)
 BenchmarkCase * BenchmarkCase::setPatterns(const std::vector<std::string>& patterns)
 {
     for(const auto& pattern : patterns) {
-        testResults[pattern] = 0.0;
+        testResults.emplace_back(std::make_pair(pattern, 0.0));
     }
     return this;
 }
@@ -88,11 +88,11 @@ double BenchmarkCase::repeatSingle()
     return averageTime;
 }
 
-std::map<std::string, double> BenchmarkCase::test()
+std::vector<std::pair<std::string, double>> BenchmarkCase::test()
 {
     std::cout << "BENCHMARK STARTED" << std::endl;
     for(auto iterator = testResults.begin(); iterator != testResults.end(); ++iterator) {
-        testResults[iterator->first] = repeatSingle();
+        iterator->second = repeatSingle();
     }
     printResults();
 

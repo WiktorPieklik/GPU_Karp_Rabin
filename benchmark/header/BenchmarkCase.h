@@ -4,7 +4,6 @@
 #include <functional>
 #include <vector>
 #include <string>
-#include <map>
 
 class BenchmarkCase
 {
@@ -16,14 +15,14 @@ public:
     BenchmarkCase* setFunctionUnderBenchmark(std::function<void()> function);
     BenchmarkCase* setTestRepeats(size_t i);
     BenchmarkCase* setPatterns(const std::vector<std::string>& patterns);
-    std::map<std::string, double> test();
+    std::vector<std::pair<std::string, double>> test();
     void saveResultsToFile(const std::string& fileName);
 private:
     size_t testRepeats = 1;
     const std::string fileExtension = ".csv";
     const std::string outputFolder = "results";
 
-    std::map<std::string, double> testResults;
+    std::vector<std::pair<std::string, double>> testResults;
 
     std::function<void()> functionUnderBenchmark = [](){};
     std::function<void()> beforeEachFunction = [](){};
