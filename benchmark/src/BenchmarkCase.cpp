@@ -5,27 +5,53 @@
 #include <fstream>
 #include <iostream>
 
-BenchmarkCase* BenchmarkCase::setAllRepeats(int i)
+/**
+ * Tells how many times function under benchmark will be executed
+ */
+BenchmarkCase* BenchmarkCase::setTestRepeats(size_t i)
 {
-    allRepeats = i;
+    testRepeats = i;
     return this;
 }
 
-BenchmarkCase* BenchmarkCase::setSameTestRepeats(int i)
+/**
+ * Enables exact benchmarking (results for specific pattern) and tells whole Benchmark class
+ * how many times (collectively) tests should be executed.
+ */
+BenchmarkCase * BenchmarkCase::setPatterns(const std::vector<std::string>& patterns)
 {
-    sameTestRepeats = i;
+    for(const auto& pattern : patterns) {
+        testResults[pattern] = 0.0;
+    }
     return this;
 }
 
+/**
+ * This method is executed before every single test.
+ * It can be also interpreted as setup function for single test.
+ */
 BenchmarkCase* BenchmarkCase::beforeEach(std::function<void ()> function)
 {
     beforeEachFunction = std::move(function);
     return this;
 }
 
+/**
+ *  This method is executed after every single test.
+ *  It can be also interpreted as tear down function for single test.
+ */
 BenchmarkCase* BenchmarkCase::afterEach(std::function<void ()> function)
 {
     afterEachFunction = std::move(function);
+    return this;
+}
+
+/**
+ * This method is executed after ${testRepeats} tests on single pattern
+ */
+BenchmarkCase * BenchmarkCase::afterTest(std::function<void()> function)
+{
+    afterTestFunction = std::move(function);
     return this;
 }
 
@@ -53,40 +79,49 @@ double BenchmarkCase::repeatSingle()
 {
     double timesSum = 0.0;
     double averageTime = 0.0;
-    for(size_t i = 0; i < sameTestRepeats; ++i) {
+    for(size_t i = 0; i < testRepeats; ++i) {
         timesSum += runSingle();
     }
-    averageTime = timesSum / sameTestRepeats;
+    afterTestFunction();
+    averageTime = timesSum / testRepeats;
 
     return averageTime;
 }
 
-std::vector<double> BenchmarkCase::run()
+std::map<std::string, double> BenchmarkCase::test()
 {
     std::cout << "BENCHMARK STARTED" << std::endl;
-    for(size_t i = 0; i < allRepeats; ++i) {
-        results.push_back(repeatSingle());
+    for(auto iterator = testResults.begin(); iterator != testResults.end(); ++iterator) {
+        testResults[iterator->first] = repeatSingle();
     }
+    printResults();
 
-    return results;
+    return testResults;
+}
+
+void BenchmarkCase::printResults()
+{
+    for(auto iterator = testResults.begin(); iterator != testResults.end(); ++iterator) {
+        printf("Pattern: %s,  average time: %fs\n", iterator->first.c_str(), iterator->second);
+    }
 }
 
 /**
- * Prints benchmark results to ./benchmark/results/${fileName}.csv
+ * Saves benchmark results to ./benchmark/results/${testRepeats}${fileName}.csv (e.g 10small_test.csv)
  * Do not provide file extension, it it already configured - by default .csv
  */
-void BenchmarkCase::saveCaseResultsToFile(const std::string& fileName)
+void BenchmarkCase::saveResultsToFile(const std::string& fileName)
 {
     std::filesystem::path projectDir = std::filesystem::current_path().parent_path();
     std::filesystem::path outputFile = projectDir
             .append("benchmark")
             .append(outputFolder)
-            .append(fileName + fileExtension);
+            .append(std::to_string(testRepeats) + fileName + fileExtension);
     std::ofstream resultsFile;
     resultsFile.open(outputFile, std::fstream::out);
-    resultsFile << "iteration, time" << std::endl;
-    for(size_t i = 0; i < results.size(); ++i) {
-        resultsFile << std::to_string(i + 1) << "," << results[i] << std::endl;
+    resultsFile << "pattern, time" << std::endl;
+    for(auto iterator = testResults.begin(); iterator != testResults.end(); ++iterator) {
+        resultsFile << iterator->first << "," << iterator->second << std::endl;
     }
     resultsFile.close();
     std::cout<<"Results are saved in " << outputFile << std::endl;
