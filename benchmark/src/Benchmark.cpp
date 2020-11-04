@@ -2,29 +2,33 @@
 #include "../../main/header/Hash/StandardHash.h"
 #include "BenchmarkCase.h"
 #include <string>
+#include <vector>
+#include <map>
 
 int main()
 {
-    std::string filePath = "../small_test.txt", pattern = "Jesteś";
-    BenchmarkCase benchmarkCase = BenchmarkCase();
-    RabinKarpSearch<StandardHash>* textProcessor = nullptr;
-    benchmarkCase.setSameTestRepeats(10)
-        ->setAllRepeats(100)
-        ->beforeEach([&textProcessor, &filePath, &pattern]() -> void{
-            textProcessor = new RabinKarpSearch<StandardHash>(filePath, pattern);
-        })
-        ->setFunctionUnderBenchmark([&textProcessor]() -> void{
-            textProcessor->search();
-        })
-        ->afterEach([&textProcessor]() -> void{
-            delete textProcessor;
-        });
-    std::vector<double> avgResults = benchmarkCase.run();
+    std::string filePath = "../test.txt";
+    std::vector<std::string> patterns = {"ipsum", "turpis", "lorem", "eros", "amet", "purus", "ex", "ac"};
+    auto it = patterns.begin();
 
-    for(size_t i = 0; i < avgResults.size(); ++i) {
-        printf("Iteration %zu,  average time: %fs\n", i+1, avgResults[i]);
-    }
-    benchmarkCase.saveCaseResultsToFile("small_test|Jestes");
+    RabinKarpSearch<StandardHash>* textProcessor;
+    BenchmarkCase benchmarkCase = BenchmarkCase();
+    benchmarkCase.setTestRepeats(100)
+            ->setPatterns(patterns)
+            ->beforeEach([&textProcessor, &filePath, &it]() -> void {
+                textProcessor = new RabinKarpSearch<StandardHash>(filePath, *it);
+            })
+            ->setFunctionUnderBenchmark([&textProcessor]() -> void {
+                textProcessor->search();
+            })
+            ->afterEach([&textProcessor]() -> void {
+                delete textProcessor;
+            })
+            ->afterTest([&it]() -> void{
+                it++;
+            });
+    std::map<std::string, double> avgResults = benchmarkCase.test();
+    benchmarkCase.saveResultsToFile("small_test");
 
     return 0;
 }
