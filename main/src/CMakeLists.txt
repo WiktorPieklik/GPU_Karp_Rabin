@@ -5,6 +5,6 @@ add_library(sources STATIC
         RabinKarpSearch.cpp)
 
 
-target_include_directories(sources PUBLIC ${PROJECT_SOURCE_DIR}/header)
+target_include_directories(sources PUBLIC ${PROJECT_SOURCE_DIR}/main/header)
 
 target_link_libraries(sources hash text utility)

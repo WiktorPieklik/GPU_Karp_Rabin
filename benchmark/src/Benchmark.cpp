@@ -1,5 +1,5 @@
-#include "../../header/RabinKarpSearch.h"
-#include "../../header/Hash/StandardHash.h"
+#include "../../main/header/RabinKarpSearch.h"
+#include "../../main/header/Hash/StandardHash.h"
 #include "BenchmarkCase.h"
 #include <string>
 #include <iostream>
