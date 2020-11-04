@@ -19,13 +19,12 @@ int main()
         })
         ->afterEach([&textProcessor]() -> void{
             delete textProcessor;
-            std::cout<< "Performed iteration"<<std::endl;
         });
 
     std::vector<double> avgResults = benchmarkCase.run();
 
     for(size_t i = 0; i < avgResults.size(); ++i) {
-        std::cout<<i + " :"<<avgResults[i]<<" s"<<std::endl;
+        printf("Iteration %zu,  average time: %fs\n", i, avgResults[i]);
     }
 
     return 0;
