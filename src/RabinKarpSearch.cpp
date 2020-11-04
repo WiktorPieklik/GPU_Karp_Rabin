@@ -8,7 +8,7 @@ namespace {
     constexpr auto BASE = 36; //input alphabet's length
 }
 
-RabinKarpSearch::RabinKarpSearch(std::string file, std::string pattern): file(std::move(file)), pattern(std::move(pattern))
+RabinKarpSearch::RabinKarpSearch(std::string file, std::string pattern, std::unique_ptr<Hash> hash): file(std::move(file)), pattern(std::move(pattern)), hash(std::move(hash))
 {
     init();
 }
@@ -28,9 +28,11 @@ void RabinKarpSearch::init()
 
 void RabinKarpSearch::calculateHashes()
 {
-    auto hash = StandardHash();
+    if(!hash)
+        throw std::runtime_error("Hash not initialized.");
+
     std::tuple<long long, long long> hashes = hash
-            .forBase(BASE)
+            ->forBase(BASE)
             .getPolyValues(pattern, text.substr(currentWindowPosition, pattern.length()));
     patternHash = std::get<0>(hashes) % PRIME;
     windowHash = std::get<1>(hashes) % PRIME;

@@ -15,6 +15,7 @@ private:
     std::string text;
 
     std::unique_ptr<Reader> reader;
+    std::unique_ptr<Hash> hash;
 
     long long patternHash{};
     long long windowHash{}; //moving window's hash
@@ -28,7 +29,7 @@ private:
     void calculateRollingHash();
 
 public:
-    RabinKarpSearch(std::string file, std::string pattern);
+    RabinKarpSearch(std::string file, std::string pattern, std::unique_ptr<Hash> hash);
     std::vector<size_t> search();
 
 };
