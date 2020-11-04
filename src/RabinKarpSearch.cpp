@@ -3,96 +3,66 @@
 
 #include <tuple>
 
-template <typename Hash>
-RabinKarpSearch<Hash>::RabinKarpSearch(std::string file, const std::string& pattern): file(file), pattern(pattern)
+namespace {
+    constexpr auto PRIME = 23;
+    constexpr auto BASE = 36; //input alphabet's length
+}
+
+RabinKarpSearch::RabinKarpSearch(std::string file, std::string pattern, std::unique_ptr<Hash> hash): file(std::move(file)), pattern(std::move(pattern)), hash(std::move(hash))
 {
     init();
 }
 
-template <typename Hash>
-void RabinKarpSearch<Hash>::init()
+void RabinKarpSearch::init()
 {
-    text = readText();
-    calculateHashes();
-    for(size_t i = 1; i < pattern.size(); ++i)
-    {
-        mostSignificantWeight *= this->base;
-    }
-}
-
-template <typename Hash>
-std::vector<std::string> RabinKarpSearch<Hash>::readText()
-{
-    std::unique_ptr<Reader> reader = TextReaderFactory::forText(file);
+    reader = TextReaderFactory::forText(file);
     if(!reader)
         throw std::runtime_error("Couldn't create a reader!");
-    return reader->read();
+    text = reader->read();
+    calculateHashes();
+    for(size_t i = 1; i < pattern.length(); ++i)
+    {
+        mostSignificantWeight *= BASE;
+    }
 }
 
-template <typename Hash>
-long long int RabinKarpSearch<Hash>::calculateHash(const std::string& text)
+void RabinKarpSearch::calculateHashes()
 {
-    Hash hash = Hash();
-    long long hashVal = hash
-            .forBase(base)
-            .getPolyValue(text);
+    if(!hash)
+        throw std::runtime_error("Hash not initialized.");
 
-    return hashVal % this->prime;
-
-}
-
-template <typename Hash>
-void RabinKarpSearch<Hash>::calculateHashes()
-{
-    Hash hash = Hash();
     std::tuple<long long, long long> hashes = hash
-            .forBase(base)
-            .getPolyValues(pattern, text[lineNo].substr(currentWindowPosition, pattern.size()));
-    patternHash = std::get<0>(hashes) % this->prime;
-    windowHash = std::get<1>(hashes) % this->prime;
+            ->forBase(BASE)
+            .getPolyValues(pattern, text.substr(currentWindowPosition, pattern.length()));
+    patternHash = std::get<0>(hashes) % PRIME;
+    windowHash = std::get<1>(hashes) % PRIME;
 }
 
-template <typename Hash>
-void RabinKarpSearch<Hash>::calculateRollingHash()
+void RabinKarpSearch::calculateRollingHash()
 {
-    if(this->currentWindowPosition != 0)
-    {
-        windowHash = (windowHash - this->mostSignificantWeight * text[lineNo][currentWindowPosition - 1]) * this->base + text[lineNo][currentWindowPosition + pattern.size() - 1];
-        windowHash = windowHash % this->prime;
+    windowHash = (windowHash - mostSignificantWeight * text[currentWindowPosition - 1]) * BASE + text[currentWindowPosition + pattern.length() - 1];
+    windowHash = windowHash % PRIME;
 
-        if(windowHash < 0)
-        {
-            windowHash = windowHash + this->prime;
-        }
-    }
-    else
+    if(windowHash < 0)
     {
-        if(lineNo < text.size())
-        {
-            windowHash = calculateHash(text[lineNo].substr(currentWindowPosition, pattern.size()));
-        }
+        windowHash = windowHash + PRIME;
     }
 }
 
-template <typename Hash>
-void RabinKarpSearch<Hash>::moveWindow()
+void RabinKarpSearch::moveWindow()
 {
-    ++this->currentWindowPosition;
-    if(this->currentWindowPosition + pattern.size() > text[lineNo].size())
-    {
-        ++this->lineNo;
-        this->currentWindowPosition = 0;
-    }
+    ++currentWindowPosition;
 }
 
-template <typename Hash>
-std::vector<size_t> RabinKarpSearch<Hash>::search()
+std::vector<size_t> RabinKarpSearch::search()
 {
-    while(lineNo < text.size())
+    std::vector<size_t> matches;
+    auto windows_count = text.length() - pattern.length();
+    while(currentWindowPosition <= windows_count)
     {
         if(windowHash == patternHash)
         {
-            if(pattern == text[lineNo].substr(currentWindowPosition, pattern.size()))
+            if(pattern == text.substr(currentWindowPosition, pattern.length()))
             {
                 //match found
                 matches.push_back(currentWindowPosition);
@@ -101,8 +71,5 @@ std::vector<size_t> RabinKarpSearch<Hash>::search()
         moveWindow();
         calculateRollingHash();
     }
-
     return matches;
 }
-
-template class RabinKarpSearch<StandardHash>;
