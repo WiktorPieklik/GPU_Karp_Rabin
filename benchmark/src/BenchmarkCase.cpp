@@ -113,7 +113,7 @@ void BenchmarkCase::printResults()
 
 /**
  * Saves benchmark results to ./benchmark/results/${testRepeats}${fileName}.csv (e.g 10small_test.csv)
- * Do not provide file extension, it it already configured - by default .csv
+ * Do not provide file extension, it is already configured - by default .csv
  */
 void BenchmarkCase::saveResultsToFile(const std::string& fileName)
 {
