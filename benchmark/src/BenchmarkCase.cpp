@@ -1,6 +1,9 @@
 #include "BenchmarkCase.h"
 #include <chrono>
 #include <utility>
+#include <filesystem>
+#include <fstream>
+#include <iostream>
 
 BenchmarkCase* BenchmarkCase::setAllRepeats(int i)
 {
@@ -60,9 +63,31 @@ double BenchmarkCase::repeatSingle()
 
 std::vector<double> BenchmarkCase::run()
 {
+    std::cout << "BENCHMARK STARTED" << std::endl;
     for(size_t i = 0; i < allRepeats; ++i) {
         results.push_back(repeatSingle());
     }
 
     return results;
+}
+
+/**
+ * Prints benchmark results to ./benchmark/results/${fileName}.csv
+ * Do not provide file extension, it it already configured - by default .csv
+ */
+void BenchmarkCase::saveCaseResultsToFile(const std::string& fileName)
+{
+    std::filesystem::path projectDir = std::filesystem::current_path().parent_path();
+    std::filesystem::path outputFile = projectDir
+            .append("benchmark")
+            .append(outputFolder)
+            .append(fileName + fileExtension);
+    std::ofstream resultsFile;
+    resultsFile.open(outputFile, std::fstream::out);
+    resultsFile << "iteration, time" << std::endl;
+    for(size_t i = 0; i < results.size(); ++i) {
+        resultsFile << std::to_string(i + 1) << "," << results[i] << std::endl;
+    }
+    resultsFile.close();
+    std::cout<<"Results are saved in " << outputFile << std::endl;
 }
