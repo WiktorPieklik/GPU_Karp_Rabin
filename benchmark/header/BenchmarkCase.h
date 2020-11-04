@@ -22,7 +22,7 @@ private:
     const std::string fileExtension = ".csv";
     const std::string outputFolder = "results";
 
-    std::vector<std::pair<std::string, double>> testResults;
+    std::vector<std::pair<std::string, double>> testResults; //pattern : avg time
 
     std::function<void()> functionUnderBenchmark = [](){};
     std::function<void()> beforeEachFunction = [](){};

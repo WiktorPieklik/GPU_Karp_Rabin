@@ -6,7 +6,7 @@
 #include <iostream>
 
 /**
- * Tells how many times function under benchmark will be executed
+ * Tells how many times function under benchmark will be executed for single pattern
  */
 BenchmarkCase* BenchmarkCase::setTestRepeats(size_t i)
 {
