@@ -26,7 +26,7 @@ int main()
                 it++;
             });
     std::vector<std::pair<std::string, double>> avgResults = benchmarkCase.test();
-    benchmarkCase.saveResultsToFile("small_test");
+    benchmarkCase.saveResultsToFile("test");
 
     return 0;
 }
