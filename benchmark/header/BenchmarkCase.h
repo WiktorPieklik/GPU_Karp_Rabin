@@ -20,8 +20,6 @@ public:
     void saveResultsToFile(const std::string& fileName);
 private:
     size_t testRepeats = 1;
-    const std::string outputFileExtension = ".csv";
-    const std::string outputFolder = "results";
 
     std::vector<BenchmarkResult> results; //pattern : (avg processing time : found count)
     std::vector<BenchmarkResult>::iterator resultIterator;

@@ -5,6 +5,11 @@
 #include <fstream>
 #include <iostream>
 
+namespace {
+    constexpr auto outputFileExtension = ".csv";
+    constexpr auto outputFolder = "results";
+}
+
 /**
  * Tells how many times function under benchmark will be executed for single pattern
  */
