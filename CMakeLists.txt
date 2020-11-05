@@ -11,4 +11,4 @@ target_link_libraries(main_target PRIVATE sources text hash utility)
 
 add_executable(benchmark_target benchmark/src/Benchmark.cpp)
 add_subdirectory(benchmark/src)
-target_link_libraries(benchmark_target PRIVATE benchmark_sources sources text hash utility)
+target_link_libraries(benchmark_target PRIVATE benchmark_sources)
