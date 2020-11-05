@@ -20,9 +20,10 @@ BenchmarkCase* BenchmarkCase::setTestRepeats(size_t i)
  */
 BenchmarkCase * BenchmarkCase::setPatterns(const std::vector<std::string>& patterns)
 {
-    for(const auto& pattern : patterns) {
-        testResults.emplace_back(std::make_pair(pattern, 0.0));
+    for(const auto& pattern : patterns) {                               //avg time, found count
+        results.emplace_back(std::make_pair(pattern, std::make_pair(0.0, 0)));
     }
+    resultIterator = results.begin();
     return this;
 }
 
@@ -55,7 +56,7 @@ BenchmarkCase * BenchmarkCase::afterTest(std::function<void()> function)
     return this;
 }
 
-BenchmarkCase* BenchmarkCase::setFunctionUnderBenchmark(std::function<void ()> function)
+BenchmarkCase* BenchmarkCase::setFunctionUnderBenchmark(std::function<size_t ()> function)
 {
     functionUnderBenchmark = std::move(function);
     return this;
@@ -66,7 +67,7 @@ double BenchmarkCase::runSingle()
     beforeEachFunction();
 
     auto start = std::chrono::high_resolution_clock::now();
-    functionUnderBenchmark();
+    resultIterator->second.second = functionUnderBenchmark(); //saving pattern occurrence count
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> benchmarkTime = end - start;
 
@@ -83,6 +84,7 @@ double BenchmarkCase::repeatSingle()
         timesSum += runSingle();
     }
     afterTestFunction();
+    resultIterator++;
     averageTime = timesSum / testRepeats;
 
     return averageTime;
@@ -93,21 +95,22 @@ double BenchmarkCase::repeatSingle()
  * That's why this method iterates over testResults and saves time (iterator->second) to
  * corresponding pattern.
  */
-std::vector<std::pair<std::string, double>> BenchmarkCase::test()
+std::vector<std::pair<std::string, std::pair<double, size_t>>> BenchmarkCase::test()
 {
     std::cout << "BENCHMARK STARTED" << std::endl;
-    for(auto iterator = testResults.begin(); iterator != testResults.end(); ++iterator) {
-        iterator->second = repeatSingle();
+    for(auto iterator = results.begin(); iterator != results.end(); ++iterator) {
+        iterator->second.first = repeatSingle(); //saving average processing time
     }
     printResults();
 
-    return testResults;
+    return results;
 }
 
 void BenchmarkCase::printResults()
 {
-    for(auto iterator = testResults.begin(); iterator != testResults.end(); ++iterator) {
-        printf("Pattern: %s,  average time: %fs\n", iterator->first.c_str(), iterator->second);
+    for(auto iterator = results.begin(); iterator != results.end(); ++iterator) {
+        printf("Pattern: %s,  found count: %lu, average time: %fs\n",
+               iterator->first.c_str(), iterator->second.second, iterator->second.first);
     }
 }
 
@@ -124,9 +127,12 @@ void BenchmarkCase::saveResultsToFile(const std::string& fileName)
             .append(std::to_string(testRepeats) + fileName + outputFileExtension);
     std::ofstream resultsFile;
     resultsFile.open(outputFile, std::fstream::out);
-    resultsFile << "pattern,time" << std::endl;
-    for(auto iterator = testResults.begin(); iterator != testResults.end(); ++iterator) {
-        resultsFile << iterator->first << "," << iterator->second << std::endl;
+    resultsFile << "pattern,found count,time" << std::endl;
+    for(auto iterator = results.begin(); iterator != results.end(); ++iterator) {
+        resultsFile
+        << iterator->first << ","
+        << iterator->second.second << ","
+        << iterator->second.first << std::endl;
     }
     resultsFile.close();
     std::cout<<"Results are saved in " << outputFile << std::endl;

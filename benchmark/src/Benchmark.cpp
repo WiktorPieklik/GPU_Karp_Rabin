@@ -16,8 +16,8 @@ int main()
             ->beforeEach([&textProcessor, &filePath, &it]() -> void {
                 textProcessor = new RabinKarpSearch(filePath, *it, std::make_unique<StandardHash>());
             })
-            ->setFunctionUnderBenchmark([&textProcessor]() -> void {
-                textProcessor->search();
+            ->setFunctionUnderBenchmark([&textProcessor]() -> size_t {
+                return textProcessor->search().size();
             })
             ->afterEach([&textProcessor]() -> void {
                 delete textProcessor;
@@ -25,7 +25,7 @@ int main()
             ->afterTest([&it]() -> void{
                 it++;
             });
-    std::vector<std::pair<std::string, double>> avgResults = benchmarkCase.test();
+    auto avgResults = benchmarkCase.test();
     benchmarkCase.saveResultsToFile("test");
 
     return 0;
