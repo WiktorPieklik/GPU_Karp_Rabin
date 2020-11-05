@@ -121,10 +121,10 @@ void BenchmarkCase::saveResultsToFile(const std::string& fileName)
     std::filesystem::path outputFile = projectDir
             .append("benchmark")
             .append(outputFolder)
-            .append(std::to_string(testRepeats) + fileName + fileExtension);
+            .append(std::to_string(testRepeats) + fileName + outputFileExtension);
     std::ofstream resultsFile;
     resultsFile.open(outputFile, std::fstream::out);
-    resultsFile << "pattern, time" << std::endl;
+    resultsFile << "pattern,time" << std::endl;
     for(auto iterator = testResults.begin(); iterator != testResults.end(); ++iterator) {
         resultsFile << iterator->first << "," << iterator->second << std::endl;
     }

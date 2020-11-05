@@ -19,7 +19,7 @@ public:
     void saveResultsToFile(const std::string& fileName);
 private:
     size_t testRepeats = 1;
-    const std::string fileExtension = ".csv";
+    const std::string outputFileExtension = ".csv";
     const std::string outputFolder = "results";
 
     std::vector<std::pair<std::string, double>> testResults; //pattern : avg time
