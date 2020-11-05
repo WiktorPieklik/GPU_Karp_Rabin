@@ -7,7 +7,7 @@ add_compile_options(-Wall -Wextra -Wpedantic)
 
 add_executable(main_target main.cpp)
 add_subdirectory(main/src)
-target_link_libraries(main_target PRIVATE sources text hash utility)
+target_link_libraries(main_target PRIVATE sources)
 
 add_executable(benchmark_target benchmark/src/Benchmark.cpp)
 add_subdirectory(benchmark/src)
