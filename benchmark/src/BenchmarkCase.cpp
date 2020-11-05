@@ -18,7 +18,7 @@ BenchmarkCase* BenchmarkCase::setTestRepeats(size_t i)
  * Enables exact benchmarking (results for specific pattern) and tells whole Benchmark class
  * how many times (collectively) tests should be executed.
  */
-BenchmarkCase * BenchmarkCase::setPatterns(const std::vector<std::string>& patterns)
+BenchmarkCase* BenchmarkCase::setPatterns(const std::vector<std::string>& patterns)
 {
     for(const auto& pattern : patterns) {                               //avg time, found count
         results.emplace_back(std::make_pair(pattern, std::make_pair(0.0, 0)));
@@ -31,7 +31,7 @@ BenchmarkCase * BenchmarkCase::setPatterns(const std::vector<std::string>& patte
  * This method is executed before every single test.
  * It can be also interpreted as setup function for single test.
  */
-BenchmarkCase* BenchmarkCase::beforeEach(std::function<void ()> function)
+BenchmarkCase* BenchmarkCase::beforeEach(std::function<void()> function)
 {
     beforeEachFunction = std::move(function);
     return this;
@@ -41,7 +41,7 @@ BenchmarkCase* BenchmarkCase::beforeEach(std::function<void ()> function)
  *  This method is executed after every single test.
  *  It can be also interpreted as tear down function for single test.
  */
-BenchmarkCase* BenchmarkCase::afterEach(std::function<void ()> function)
+BenchmarkCase* BenchmarkCase::afterEach(std::function<void()> function)
 {
     afterEachFunction = std::move(function);
     return this;
@@ -50,13 +50,13 @@ BenchmarkCase* BenchmarkCase::afterEach(std::function<void ()> function)
 /**
  * This method is executed after ${testRepeats} tests on single pattern
  */
-BenchmarkCase * BenchmarkCase::afterTest(std::function<void()> function)
+BenchmarkCase* BenchmarkCase::afterTest(std::function<void()> function)
 {
     afterTestFunction = std::move(function);
     return this;
 }
 
-BenchmarkCase* BenchmarkCase::setFunctionUnderBenchmark(std::function<size_t ()> function)
+BenchmarkCase* BenchmarkCase::setFunctionUnderBenchmark(std::function<size_t()> function)
 {
     functionUnderBenchmark = std::move(function);
     return this;
@@ -95,7 +95,7 @@ double BenchmarkCase::repeatSingle()
  * That's why this method iterates over results and saves time (iterator->second.first) and found count (iterator->second.second).
  * to corresponding pattern.
  */
-std::vector<std::pair<std::string, std::pair<double, size_t>>> BenchmarkCase::test()
+std::vector<BenchmarkCase::BenchmarkResult> BenchmarkCase::test()
 {
     std::cout << "BENCHMARK STARTED" << std::endl;
     for(auto iterator = results.begin(); iterator != results.end(); ++iterator) {

@@ -25,7 +25,7 @@ int main()
             ->afterTest([&patternsIterator]() -> void{
                 patternsIterator++;
             });
-    auto avgResults = benchmarkCase.test();
+    auto results = benchmarkCase.test();
     benchmarkCase.saveResultsToFile("test");
 
     return 0;

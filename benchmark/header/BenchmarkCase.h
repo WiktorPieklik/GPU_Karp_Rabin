@@ -7,6 +7,7 @@
 
 class BenchmarkCase
 {
+using BenchmarkResult = std::pair<std::string, std::pair<double, size_t>>;
 public:
     BenchmarkCase() = default;
     BenchmarkCase* beforeEach(std::function<void()> function);
@@ -15,15 +16,15 @@ public:
     BenchmarkCase* setFunctionUnderBenchmark(std::function<size_t()> function);
     BenchmarkCase* setTestRepeats(size_t i);
     BenchmarkCase* setPatterns(const std::vector<std::string>& patterns);
-    std::vector<std::pair<std::string, std::pair<double, size_t>>> test();
+    std::vector<BenchmarkResult> test();
     void saveResultsToFile(const std::string& fileName);
 private:
     size_t testRepeats = 1;
     const std::string outputFileExtension = ".csv";
     const std::string outputFolder = "results";
 
-    std::vector<std::pair<std::string, std::pair<double, size_t>>> results; //pattern : (avg processing time : found count)
-    std::vector<std::pair<std::string, std::pair<double, size_t>>>::iterator resultIterator;
+    std::vector<BenchmarkResult> results; //pattern : (avg processing time : found count)
+    std::vector<BenchmarkResult>::iterator resultIterator;
 
     std::function<size_t()> functionUnderBenchmark = [](){ return 0;};
     std::function<void()> beforeEachFunction = [](){};
