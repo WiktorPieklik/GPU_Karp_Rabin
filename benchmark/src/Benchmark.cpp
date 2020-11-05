@@ -7,14 +7,14 @@ int main()
 {
     std::string filePath = "../test.txt";
     std::vector<std::string> patterns = {"ipsum", "turpis", "lorem", "eros", "amet", "purus", "ex", "ac"};
-    auto it = patterns.begin();
+    auto patternsIterator = patterns.begin();
 
     RabinKarpSearch* textProcessor;
     BenchmarkCase benchmarkCase = BenchmarkCase();
     benchmarkCase.setTestRepeats(100)
             ->setPatterns(patterns)
-            ->beforeEach([&textProcessor, &filePath, &it]() -> void {
-                textProcessor = new RabinKarpSearch(filePath, *it, std::make_unique<StandardHash>());
+            ->beforeEach([&textProcessor, &filePath, &patternsIterator]() -> void {
+                textProcessor = new RabinKarpSearch(filePath, *patternsIterator, std::make_unique<StandardHash>());
             })
             ->setFunctionUnderBenchmark([&textProcessor]() -> size_t {
                 return textProcessor->search().size();
@@ -22,8 +22,8 @@ int main()
             ->afterEach([&textProcessor]() -> void {
                 delete textProcessor;
             })
-            ->afterTest([&it]() -> void{
-                it++;
+            ->afterTest([&patternsIterator]() -> void{
+                patternsIterator++;
             });
     auto avgResults = benchmarkCase.test();
     benchmarkCase.saveResultsToFile("test");

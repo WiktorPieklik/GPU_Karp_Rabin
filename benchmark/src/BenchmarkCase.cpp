@@ -92,8 +92,8 @@ double BenchmarkCase::repeatSingle()
 
 /**
  * It is assumed that textProcessor searches text for patterns in patterns order given in setPatterns().
- * That's why this method iterates over testResults and saves time (iterator->second) to
- * corresponding pattern.
+ * That's why this method iterates over results and saves time (iterator->second.first) and found count (iterator->second.second).
+ * to corresponding pattern.
  */
 std::vector<std::pair<std::string, std::pair<double, size_t>>> BenchmarkCase::test()
 {
