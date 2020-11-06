@@ -3,7 +3,7 @@
 #include "PlainTextReader.cuh"
 #include "TextFileReader.cuh"
 
-#include <filesystem>
+#include <experimental/filesystem>
 
 /**
  * Determines if given string is path to file or either sample string to be processed.
@@ -14,10 +14,10 @@
  */
 std::unique_ptr<Reader> TextReaderFactory::forText(const std::string& text)
 {
-    std::filesystem::path path(text);
+    std::experimental::filesystem::path path(text);
     if(path.extension() == ".txt")
     {
-        if(std::filesystem::exists(path))
+        if(std::experimental::filesystem::exists(path))
         {
             return std::make_unique<TextFileReader>(text);
         }
