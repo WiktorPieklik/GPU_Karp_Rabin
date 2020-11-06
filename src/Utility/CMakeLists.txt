@@ -1,4 +1,4 @@
 add_library(utility STATIC
-        TextSplitter.cpp)
+        TextSplitter.cu)
 
 target_include_directories(utility PUBLIC ${PROJECT_SOURCE_DIR}/header/Utility)

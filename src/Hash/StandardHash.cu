@@ -1,4 +1,4 @@
-#include "StandardHash.h"
+#include "StandardHash.cuh"
 
 long long StandardHash::getPolyValue(std::string_view pattern)
 {

@@ -1,7 +1,7 @@
 #ifndef GPU_KARP_RABIN_TEXTFILEREADER_H
 #define GPU_KARP_RABIN_TEXTFILEREADER_H
 
-#include "Reader.h"
+#include "Reader.cuh"
 #include <filesystem>
 
 class TextFileReader: public Reader

@@ -1,7 +1,7 @@
 #ifndef GPU_KARP_RABIN_PLAINTEXTREADER_H
 #define GPU_KARP_RABIN_PLAINTEXTREADER_H
 
-#include "Reader.h"
+#include "Reader.cuh"
 
 class PlainTextReader: public Reader
 {

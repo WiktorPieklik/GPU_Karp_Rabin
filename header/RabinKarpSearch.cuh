@@ -1,9 +1,9 @@
-#ifndef GPU_KARP_RABIN_RABINKARPSEARCH_H
-#define GPU_KARP_RABIN_RABINKARPSEARCH_H
+#ifndef GPU_KARP_RABIN_RABINKARPSEARCH_CUH
+#define GPU_KARP_RABIN_RABINKARPSEARCH_CUH
 
-#include "Hash/Hash.h"
-#include "Text/Reader.h"
-#include "Text/TextReaderFactory.h"
+#include "Hash/Hash.cuh"
+#include "Text/Reader.cuh"
+#include "Text/TextReaderFactory.cuh"
 
 #include <vector>
 
@@ -35,4 +35,4 @@ public:
 };
 
 
-#endif //GPU_KARP_RABIN_RABINKARPSEARCH_H
+#endif //GPU_KARP_RABIN_RABINKARPSEARCH_CUH

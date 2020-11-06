@@ -1,7 +1,7 @@
-#include "TextReaderFactory.h"
-#include "FileNotFoundException.h"
-#include "PlainTextReader.h"
-#include "TextFileReader.h"
+#include "TextReaderFactory.cuh"
+#include "FileNotFoundException.cuh"
+#include "PlainTextReader.cuh"
+#include "TextFileReader.cuh"
 
 #include <filesystem>
 

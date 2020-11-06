@@ -1,5 +1,5 @@
-#ifndef GPU_KARP_RABIN_HASH_H
-#define GPU_KARP_RABIN_HASH_H
+#ifndef GPU_KARP_RABIN_HASH_CUH
+#define GPU_KARP_RABIN_HASH_CUH
 
 #include <string_view>
 #include <tuple>
@@ -19,4 +19,4 @@ public:
     virtual long long getPolyValue(std::string_view pattern) = 0;
     virtual std::tuple<long long, long long> getPolyValues(std::string_view pattern1, std::string_view pattern2) = 0;
 };
-#endif //GPU_KARP_RABIN_HASH_H
+#endif //GPU_KARP_RABIN_HASH_CUH

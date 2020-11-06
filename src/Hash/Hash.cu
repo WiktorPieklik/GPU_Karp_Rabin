@@ -1,4 +1,4 @@
-#include "Hash.h"
+#include "Hash.cuh"
 
 Hash& Hash::forBase(int base)
 {

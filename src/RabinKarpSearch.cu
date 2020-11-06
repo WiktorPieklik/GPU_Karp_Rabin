@@ -1,5 +1,5 @@
-#include "RabinKarpSearch.h"
-#include "StandardHash.h"
+#include "RabinKarpSearch.cuh"
+#include "StandardHash.cuh"
 
 #include <tuple>
 

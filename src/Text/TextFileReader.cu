@@ -1,4 +1,4 @@
-#include "TextFileReader.h"
+#include "TextFileReader.cuh"
 
 #include <fstream>
 /**

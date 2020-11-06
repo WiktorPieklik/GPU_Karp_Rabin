@@ -1,8 +1,8 @@
-#ifndef GPU_KARP_RABIN_TEXTREADERFACTORY_H
-#define GPU_KARP_RABIN_TEXTREADERFACTORY_H
+#ifndef GPU_KARP_RABIN_TEXTREADERFACTORY_CUH
+#define GPU_KARP_RABIN_TEXTREADERFACTORY_CUH
 
 #include <memory>
-#include "Reader.h"
+#include "Reader.cuh"
 
 class TextReaderFactory
 {
@@ -11,4 +11,4 @@ public:
     static std::unique_ptr<Reader> forText(const std::string& text);
 };
 
-#endif //GPU_KARP_RABIN_TEXTREADERFACTORY_H
+#endif //GPU_KARP_RABIN_TEXTREADERFACTORY_CUH

@@ -1,4 +1,4 @@
-#include "PlainTextReader.h"
+#include "PlainTextReader.cuh"
 
 /**
  * Reads input string

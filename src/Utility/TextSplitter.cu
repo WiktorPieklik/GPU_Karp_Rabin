@@ -1,4 +1,4 @@
-#include "TextSplitter.h"
+#include "TextSplitter.cuh"
 
 size_t TextSplitter::numOfWindows(size_t textLength, size_t patternLength) {
     return textLength - patternLength + 1;
