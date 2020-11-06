@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Hash/StandardHash.h"
-#include "header/RabinKarpSearch.h"
+#include "main/header/RabinKarpSearch.h"
 #include "Text/FileNotFoundException.h"
 
 int main()
