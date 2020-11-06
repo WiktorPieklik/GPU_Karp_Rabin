@@ -25,13 +25,14 @@ private:
 
     void calculateHashes();
     void init();
+    void initGPU();
     void moveWindow();
     void calculateRollingHash();
 
 public:
     RabinKarpSearch(std::string file, std::string pattern, std::unique_ptr<Hash> hash);
     std::vector<size_t> search();
-
+    std::vector<size_t> searchGPU();
 };
 
 
