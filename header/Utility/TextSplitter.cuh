@@ -11,7 +11,7 @@ private:
     static size_t numOfWindows(size_t textLength, size_t patternLength);
     static std::pair<size_t, size_t> lenOfChains(size_t numOfWindows);
 public:
-    [[maybe_unused]] static std::vector<std::pair<size_t, size_t>> splitText(size_t textLength, size_t patternLength);
+    static std::vector<std::pair<size_t, size_t>> splitText(size_t textLength, size_t patternLength);
 
 };
 
