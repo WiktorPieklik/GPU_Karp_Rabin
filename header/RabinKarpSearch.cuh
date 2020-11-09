@@ -17,12 +17,6 @@ private:
 
     std::unique_ptr<Reader> reader;
     std::unique_ptr<Hash> hash;
-    std::unique_ptr<TextSplitter> textSplitter;
-
-    // Unified memory
-    std::pair<int, int>* umRanges;
-    char* umPattern;
-    char* umText;
 
     long long patternHash{};
     long long windowHash{}; //moving window's hash
@@ -32,16 +26,14 @@ private:
 
     void calculateHashes();
     void init();
-    void initGPU();
     void moveWindow();
     void calculateRollingHash();
-    __device__ bool compareCharArrays(const char* first, const char* second, int length);
 
-        public:
-    RabinKarpSearch(std::string file, std::string pattern, std::unique_ptr<Hash> hash, std::unique_ptr<TextSplitter> textSplitter);
-    ~RabinKarpSearch();
-    std::vector<size_t> search();
-    std::vector<size_t> searchGPU();
+public:
+    RabinKarpSearch(std::string file, std::string pattern, std::unique_ptr<Hash> hash);
+    [[maybe_unused]] std::vector<size_t> search();
+    std::string getText();
+    std::string getPattern();
 };
 
 

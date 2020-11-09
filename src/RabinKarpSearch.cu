@@ -10,16 +10,9 @@ namespace {
     constexpr auto BASE = 36; //input alphabet's length
 }
 
-RabinKarpSearch::RabinKarpSearch(std::string file, std::string pattern, std::unique_ptr<Hash> hash, std::unique_ptr<TextSplitter> textSplitter): file(std::move(file)), pattern(std::move(pattern)), hash(std::move(hash)), textSplitter(std::move(textSplitter))
+RabinKarpSearch::RabinKarpSearch(std::string file, std::string pattern, std::unique_ptr<Hash> hash): file(std::move(file)), pattern(std::move(pattern)), hash(std::move(hash))
 {
     init();
-    initGPU();
-}
-
-RabinKarpSearch::~RabinKarpSearch() {
-    cudaFree(umRanges);
-    cudaFree(umText);
-    cudaFree(umPattern);
 }
 
 void RabinKarpSearch::init()
@@ -32,27 +25,6 @@ void RabinKarpSearch::init()
     for(size_t i = 1; i < pattern.length(); ++i)
     {
         mostSignificantWeight *= BASE;
-    }
-}
-
-void RabinKarpSearch::initGPU() {
-    // Allocate unified memory for ranges
-    std::vector<std::pair<size_t, size_t>> ranges = textSplitter->splitText(text.length(), pattern.length());
-    cudaMallocManaged(&umRanges, ranges.size() * sizeof(std::pair<int, int>));
-    for(int i = 0; i < ranges.size(); i++) {
-        umRanges[i] = std::make_pair(ranges[i].first, ranges[i].second);
-    }
-
-    // Allocate unified memory for text
-    cudaMallocManaged(&umText, text.length() * sizeof(char));
-    for(int i = 0; i < text.length(); i++) {
-        umText[i] = text[i];
-    }
-
-    // Allocate unified memory for pattern
-    cudaMallocManaged(&umPattern, pattern.length() * sizeof(char));
-    for(int i = 0; i < pattern.length(); i++) {
-        umPattern[i] = pattern[i];
     }
 }
 
@@ -104,28 +76,10 @@ std::vector<size_t> RabinKarpSearch::search()
     return matches;
 }
 
-__device__ bool RabinKarpSearch::compareCharArrays(const char *first, const char *second, int length) {
-    int currentChar = 0;
-    while(currentChar < length) {
-        if(first[currentChar] != second[currentChar]) {
-            return false;
-        }
-        return true;
-    }
+std::string RabinKarpSearch::getText() {
+    return text;
 }
 
-__global__ void searchForMatches(std::pair<int, int>* ranges, char* text, char* pattern) {
-    int idx = blockIdx.x * blockDim.x + threadIdx.x;
-
-    for(int i = ranges[idx].first; i <= ranges[idx].first; i++) {
-        char* buff;
-
-        free(buff);
-    }
-}
-
-std::vector<size_t> RabinKarpSearch::searchGPU()
-{
-    searchForMatches<<<1, 32>>>(umRanges, umText, umPattern);
-    cudaDeviceSynchronize();
+std::string RabinKarpSearch::getPattern() {
+    return pattern;
 }
