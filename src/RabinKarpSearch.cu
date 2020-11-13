@@ -75,11 +75,3 @@ std::vector<size_t> RabinKarpSearch::search()
     }
     return matches;
 }
-
-std::string RabinKarpSearch::getText() {
-    return text;
-}
-
-std::string RabinKarpSearch::getPattern() {
-    return pattern;
-}

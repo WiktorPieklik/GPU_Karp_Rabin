@@ -31,9 +31,7 @@ private:
 
 public:
     RabinKarpSearch(std::string file, std::string pattern, std::unique_ptr<Hash> hash);
-    [[maybe_unused]] std::vector<size_t> search();
-    std::string getText();
-    std::string getPattern();
+    std::vector<size_t> search();
 };
 
 
