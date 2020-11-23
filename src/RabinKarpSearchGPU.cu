@@ -3,6 +3,8 @@
 #include "Utility/TextSplitter.cuh"
 #include "Text/TextFileReader.cuh"
 
+#include "thrust/device_vector.h"
+
 namespace {
     constexpr auto PRIME = 23;
     constexpr auto BASE = 36; //input alphabet's length
@@ -10,6 +12,7 @@ namespace {
 
 // Unified memory
 std::pair<int, int>* umRanges;
+int* umMatches;
 char* umPattern;
 char* umText;
 
@@ -17,7 +20,6 @@ char* umText;
 TextFileReader reader = TextFileReader("../test.txt");
 std::string text = reader.read();
 std::string pattern = "lorem";
-int patternLen = pattern.length();
 int mostSignificantWeight = 1;
 TextSplitter textSplitter = TextSplitter();
 std::vector<std::pair<size_t, size_t>> ranges = textSplitter.splitText(text.length(), pattern.length());
@@ -28,6 +30,12 @@ __host__ void initUnifiedMemory() {
     for(size_t i = 1; i < pattern.length(); ++i)
     {
         mostSignificantWeight *= BASE;
+    }
+
+    // Allocate unified memory for matches
+    cudaMallocManaged(&umMatches, (text.size() - pattern.length() + 1) * sizeof(int));
+    for(int i = 0; i < (text.size() - pattern.length() + 1); i++) {
+        umMatches[i] = 0;
     }
 
     // Allocate unified memory for ranges
@@ -52,7 +60,7 @@ __host__ void initUnifiedMemory() {
 __host__ __device__ long long getPolyValue(char* pattern, int pos, int len)
 {
     long long result = static_cast<int>(pattern[pos]);
-    for(size_t i = pos; i < pos + len; ++i)
+    for(size_t i = pos + 1; i < pos + len; ++i)
     {
         result = result * BASE + static_cast<int>(pattern[i]);
     }
@@ -64,6 +72,7 @@ __device__ long long calculateRollingHash(long long mostSignificantWeight, char*
 {
     long long hash = (windowHash - mostSignificantWeight * text[currentPos - 1]) * BASE + text[currentPos + patternLen - 1];
     hash = hash % PRIME;
+
     if(hash >= 0) {
         return hash;
     } else {
@@ -84,32 +93,35 @@ __device__ bool compareCharArrays(const char *first, const char *second, int pos
 }
 
 // GPU karp rabin search
-__global__ void search(std::pair<int, int>* ranges, char* text, char* pattern, int patternLen, long long patternHash, int mostSignificantWeight) {
+__global__ void search(std::pair<int, int>* ranges, int* matches, char* text, char* pattern, int patternLen, long long patternHash, int mostSignificantWeight) {
     // Calculate unique index of a thread
-    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    int threadId = blockIdx.x * blockDim.x + threadIdx.x;
 
-    // Check if hash was calculated at first
-    bool isHashCalculated = false;
-
+    // Variable for storing hash of the window
     long long windowHash;
 
-    for(int i = ranges[idx].first; i <= ranges[idx].second; i++) {
+    for(int i = ranges[threadId].first; i <= ranges[threadId].second; i++) {
         // Hash of first window
-        if (isHashCalculated == false) {
+        if (i == ranges[threadId].first) {
             windowHash = getPolyValue(text, i, patternLen);
-            isHashCalculated = true;
         }
         else {
             windowHash = calculateRollingHash(mostSignificantWeight, text, windowHash, i, patternLen);
         }
-        for (int j = i; j < i + patternLen; j++) {
-            printf("%c", text[j]);
-        }
-        printf("%lld\n", windowHash);
+
         if(windowHash == patternHash) {
             if (compareCharArrays(pattern, text, i, patternLen)) {
-                printf("%d\n", i);
+                matches[i]++;
             }
+        }
+    }
+}
+
+__host__ void printMatches() {
+    for(int i = 0; i < (text.size() - pattern.length() + 1); i++) {
+        // Print only indexes of matches
+        if(umMatches[i] == 1) {
+            std::cout<< i <<std::endl;
         }
     }
 }
@@ -117,10 +129,10 @@ __global__ void search(std::pair<int, int>* ranges, char* text, char* pattern, i
 // Wrapper of kernel function to make it possible to use it with benchmark class
 __host__ void searchWrapper() {
     // Calculate pattern hash value
-    long long patternHash = getPolyValue(umPattern, 0, patternLen);
+    long long patternHash = getPolyValue(umPattern, 0, pattern.length());
 
     // Invoke kernel function
-    search<<<1, 1>>>(umRanges, umText, umPattern, patternLen, patternHash, mostSignificantWeight);
+    search<<<1, 32>>>(umRanges, umMatches, umText, umPattern, pattern.length(), patternHash, mostSignificantWeight);
 
     // Make CPU wait for kernel to finish before go further
     cudaDeviceSynchronize();
