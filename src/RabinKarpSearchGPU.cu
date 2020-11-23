@@ -8,6 +8,7 @@
 namespace {
     constexpr auto PRIME = 23;
     constexpr auto BASE = 36; //input alphabet's length
+    constexpr auto THREADS = 32;
 }
 
 // Unified memory
@@ -17,11 +18,12 @@ char* umPattern;
 char* umText;
 
 // Variables
-TextFileReader reader = TextFileReader("../test.txt");
+TextFileReader reader = TextFileReader("../benchmark217MB.txt");
 std::string text = reader.read();
 std::string pattern = "lorem";
 int mostSignificantWeight = 1;
 TextSplitter textSplitter = TextSplitter();
+const int TextSplitter::numOfThreads = THREADS;
 std::vector<std::pair<size_t, size_t>> ranges = textSplitter.splitText(text.length(), pattern.length());
 
 // Allocate needed resources in unified memory
@@ -97,6 +99,10 @@ __global__ void search(std::pair<int, int>* ranges, int* matches, char* text, ch
     // Calculate unique index of a thread
     int threadId = blockIdx.x * blockDim.x + threadIdx.x;
 
+    // Check if index is not out of range
+    if(threadId >= THREADS) {
+        return;
+    }
     // Variable for storing hash of the window
     long long windowHash;
 
@@ -132,7 +138,7 @@ __host__ void searchWrapper() {
     long long patternHash = getPolyValue(umPattern, 0, pattern.length());
 
     // Invoke kernel function
-    search<<<1, 32>>>(umRanges, umMatches, umText, umPattern, pattern.length(), patternHash, mostSignificantWeight);
+    search<<<THREADS / 320 + 1, 320>>>(umRanges, umMatches, umText, umPattern, pattern.length(), patternHash, mostSignificantWeight);
 
     // Make CPU wait for kernel to finish before go further
     cudaDeviceSynchronize();
@@ -141,6 +147,7 @@ __host__ void searchWrapper() {
 // Free the allocated resources
 __host__ void freeUnifiedMemory() {
     cudaFree(umRanges);
+    cudaFree(umMatches);
     cudaFree(umText);
     cudaFree(umPattern);
 }
