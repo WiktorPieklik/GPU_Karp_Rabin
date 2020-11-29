@@ -8,7 +8,7 @@
 namespace {
     constexpr auto PRIME = 23;
     constexpr auto BASE = 36; //input alphabet's length
-    constexpr auto THREADS = 32;
+    constexpr auto THREADS = 1000000;
 }
 
 // Unified memory
@@ -20,7 +20,7 @@ char* umText;
 // Variables
 TextFileReader reader = TextFileReader("../benchmark217MB.txt");
 std::string text = reader.read();
-std::string pattern = "lorem";
+std::string pattern = "ipsum";
 int mostSignificantWeight = 1;
 TextSplitter textSplitter = TextSplitter();
 const int TextSplitter::numOfThreads = THREADS;
@@ -124,12 +124,15 @@ __global__ void search(std::pair<int, int>* ranges, int* matches, char* text, ch
 }
 
 __host__ void printMatches() {
+    int matchCounter = 0;
     for(int i = 0; i < (text.size() - pattern.length() + 1); i++) {
         // Print only indexes of matches
         if(umMatches[i] == 1) {
             std::cout<< i <<std::endl;
+            matchCounter++;
         }
     }
+    std::cout<<"Liczba wystapien: "<<matchCounter<<std::endl;
 }
 
 // Wrapper of kernel function to make it possible to use it with benchmark class
