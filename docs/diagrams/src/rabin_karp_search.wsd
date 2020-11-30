@@ -1,0 +1,34 @@
+@startuml
+!include ../styles.wsd
+!include hash.wsd
+!include text.wsd
+
+RabinKarpSearch o-- Hash
+RabinKarpSearch *-- TextReaderFactory
+RabinKarpSearch *-- TextSplitter
+
+class RabinKarpSearch {
+- string file
+- string pattern
+- string text
+- long long patternHash
+- long long windowHash
+- long long mostSignificantWeight
+- size_t currentWindowPosition
+- Reader* reader
+- Hash* hash
+- void calculateHashes()
+- void init()
+- void moveWindow()
+- void calculateRollingHash()
++ RabinKarpSearch(string file, string pattern, Hash* hash)
++ vector<size_t> search()
+}
+
+class TextSplitter {
+- const int numberOfThreads
+- size_t numOfWindows(size_t textLength, size_t patternLength)
+- pair<size_t, size_t> lenOfChains(size_t numOfWindows)
++ vector<pair<size_t, size_t>> splitText(size_t textLength, size_t patternLength)
+}
+@enduml
