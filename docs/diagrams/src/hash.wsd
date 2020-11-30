@@ -1,0 +1,14 @@
+@startuml
+!include ../styles.wsd
+
+Hash <|-- StandardHash
+
+abstract class Hash {
+# int base
++ Hash& forBase(int base)
++ {abstract} long long getPolyValue(string_view pattern)
++ {abstract} tuple<long long, long long> getPolyValues(string_view pattern1, string_view pattern2)
+}
+
+class StandardHash
+@enduml
