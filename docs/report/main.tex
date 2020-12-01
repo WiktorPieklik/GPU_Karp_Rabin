@@ -1,0 +1,123 @@
+\documentclass[12pt]{article}
+\usepackage{scrextend}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage[T1]{fontenc}%polskie znaki
+\usepackage[utf8]{inputenc}%polskie znaki
+\usepackage[a4paper,left=0.42in,right=0.42in,top=0.25in,bottom=0.5in,noheadfoot]{geometry}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{tabulary}
+\usepackage{etoc}
+\usepackage[normalem]{ulem} 
+\usepackage{tikz}
+\usepackage[bf]{caption}
+\usepackage{listings}
+\usepackage{dirtytalk}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{lmodern}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{amsmath}
+\renewcommand{\baselinestretch}{1.75}
+\pagestyle{fancy}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setstretch{1.75}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhf{}
+\lhead{}
+\lfoot{
+  \hrule
+  \textsc{Projekt Akceleracja obliczeń w przetwarzaniu danych}
+}
+\rfoot{
+  \hrule
+  \textsc{strona \thepage / \pageref{LastPage}}
+}
+\usepackage{listings}
+\usepackage{xcolor}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.97,0.97,1.0}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\fontsize{11}{9}\ttfamily,%\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=1,
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}
+}
+\renewcommand{\lstlistlistingname}{Spis listingów}\lstset{style=mystyle}
+
+
+\graphicspath{images/}
+\newgeometry{lmargin=2.0cm, rmargin=2.0cm, tmargin=2.0cm, bmargin=2.0cm}
+\clubpenalty=9996
+\widowpenalty=9999
+\brokenpenalty=4991
+\predisplaypenalty=10000
+\postdisplaypenalty=1549
+\displaywidowpenalty=1602
+
+\title{ 
+    \vspace*{55mm}
+    \textsc{
+        \textbf{Akceleracja obliczeń w przetwarzaniu danych\\Projekt}\\
+        \large Wyszukiwanie słów w tekście z wykorzystaniem algorytmu Rabina-Karpa
+        }
+} 
+\author{
+\vspace{15mm}\\
+Szymon Filipiak, 241309\\
+Dawid Zawadzki, 241116\\
+Wiktor Pieklik, 241282\\
+\vspace{15mm}
+}
+
+
+\date{Wrocław, \today}
+\begin{document}
+\maketitle
+
+\newpage
+\setcounter{tocdepth}{2}
+\localtableofcontents
+
+\newpage
+\listoffigures
+\lstlistoflistings
+\newpage
+
+\include{chapters/wstep}
+\include{chapters/algorytm_rk}
+\include{chapters/implementacja}
+
+\include{chapters/pomiary_wydajnosci}
+\include{chapters/optymalizacja}
+\include{chapters/podsumowanie}
+
+
+\bibliographystyle{plabbrv}
+\bibliography{bibliography.bib}
+\addcontentsline{toc}{section}{Literatura}
+\end{document}
