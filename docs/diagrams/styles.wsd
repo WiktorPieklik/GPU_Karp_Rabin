@@ -26,6 +26,24 @@ skinparam arrow {
     Thickness 1
 }
 
+skinparam activity {
+    FontColor Black
+    FontSize 14
+    FontName times
+
+    BarColor #Gainsboro
+    BackgroundColor #f2f2f2
+    BorderColor Gray
+    BorderThickness 0.8
+
+    StartColor Gainsboro
+
+    DiamondFontName times
+    DiamondFontSize 14
+    DiamondBackgroundColor LightSteelBlue
+    DiamondBorderColor LightSlateGray
+}
+
 ' global properties style
 skinparam shadowing false
 skinparam roundcorner 20
