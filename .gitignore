@@ -1,3 +1,6 @@
+### benchmark files ###
+benchfiles/
+
 ### C++ ###
 # Prerequisites
 *.d
