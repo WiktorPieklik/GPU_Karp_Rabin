@@ -1,0 +1,37 @@
+@startuml
+!include ../styles.wsd
+
+|CPU|
+start
+:Wczytaj tekst z pliku;
+:Zapisz podany wzorzec;
+:<b>Zaalokuj ujedloniconą pamięć na:</b>
+* wyniki działania algorytmu,
+* tablicę zawierającą zakresy fragmentów tekstu,
+* wczytany tekst,
+* wczytany wzorzec;
+:Zleć wykonanie kernela i zaczekaj na jego zakończenie;
+
+|#fafafa|GPU|
+:Uruchom kernel na zadanej liczbie wątków;
+fork
+    :<b>Thread #1</b>
+    alg. Karpa-Rabina dla
+    zadanego fragmentu tekstu;
+fork again
+    :<b>Thread #2</b>
+    alg. Karpa-Rabina dla
+    zadanego fragmentu tekstu;
+fork again
+    :...;
+fork again
+    :<b>Thread #n</b>
+    alg. Karp-Rabin dla
+    zadanego fragmentu tekstu;
+endfork
+
+|CPU|
+:Wyświetl otrzymane wyniki;
+:Zwolnij zaalokowaną pamięć;
+stop
+@enduml

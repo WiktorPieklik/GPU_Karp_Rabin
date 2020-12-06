@@ -1,0 +1,26 @@
+@startuml
+!include ../styles.wsd
+
+Reader <|-- PlainTextReader
+Reader <|-- TextFileReader
+TextReaderFactory *-- Reader
+
+
+abstract class Reader {
++ {abstract} string read()
+}
+
+class PlainTextReader {
+- string text
++ PlainTextReader(string text)
+}
+
+class TextFileReader {
+- filesystem::path file_path
++ TextFileReader(filesystem::path path)
+}
+
+class TextReaderFactory {
++ Reader* forText(const string text)
+}
+@enduml

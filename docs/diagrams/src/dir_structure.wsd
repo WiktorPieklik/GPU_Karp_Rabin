@@ -1,0 +1,59 @@
+@startmindmap
+!include ../styles.wsd
+<style>
+mindmapDiagram {
+    node {
+        BackgroundColor #f2f2f2
+        LineColor Gainsboro
+        LineThickness 0.8
+    }
+}
+</style>
+
+title Struktura systemu
+
+* <b>root</b>
+** <b>main</b>
+*** <b>header</b>
+**** <b>Hash</b>
+*****_ Hash.h
+*****_ StandardHash.h
+
+**** <b>Text</b>
+*****_ FileNotFoundException.h
+*****_ PlainTextReader.h
+*****_ Reader.h
+*****_ TextFileReader.h
+*****_ TextReaderFactory.h
+
+**** <b>Utility</b>
+*****_ TextSplitter.h
+
+****_ RabinKarpSearch.h
+
+*** <b>src</b>
+**** <b>Hash</b>
+*****_ Hash.cpp
+*****_ StandardHash.cpp
+
+**** <b>Text</b>
+*****_ PlainTextReader.cpp
+*****_ TextFileReader.cpp
+*****_ TextReaderFactory.cpp
+
+**** <b>Utility</b>
+*****_ TextSplitter.cpp
+
+****_ RabinKarpSearch.cpp
+
+
+** <b>benchmark</b>
+*** <b>header</b>
+****_ BenchmarkCase.h
+
+*** <b>results</b>
+
+*** <b>src</b>
+****_ Benchmark.cpp
+****_ BenchmarkCase.cpp
+@endmindmap

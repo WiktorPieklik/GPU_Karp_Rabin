@@ -1,0 +1,9 @@
+\section{Wstęp}
+Rozwiązanie opisywanego projektu znajduje się w publicznym repozytorium \url{https://github.com/WiktorPieklik/GPU_Karp_Rabin}.
+\subsection{Zakres i cel}
+Celem naszego projektu jest poznanie technik oraz narzędzi do tworzenia oprogramowania wykonywalnego na kartach graficznych. Skupimy się na kartach firmy \textbf{NVIDIA} \cite{nvidia}. Wymaga to pozanania specyfiki architektury tych urządzeń oraz sposobu programowania w framework'u \textbf{CUDA} (Compute Unified Device Architecture) \cite{cuda}. Do realizacji naszych celów zaimplementujemy algorytm \textit{Karpa-Rabina}, dzięki któremu będziemy mogli poszukiwać zadanej frazy w zadanym tekście. Algorytm ten będzie zaimplementowany w dwóch wersjach:
+\begin{itemize}
+    \item na główny procesor \textbf{CPU},
+    \item na procesor graficzny \textbf{GPU}.
+\end{itemize}
+Następnie przeprowadzimy serię testów w celu jakościowej oceny zastosowanych rozwiązań, na podstawie której ustalimy czy proces zrównoleglania przyniósł efekt w postaci skrócenia czasu wykonywania algorytmu. Przeprowadzimy także testy, które pomogą nam określić jak dobrze nasza implementacja algorytmu wykorzystuje możliwości \textbf{GPU}.

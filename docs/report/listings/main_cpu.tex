@@ -1,0 +1,16 @@
+#include <iostream>
+#include "Hash/StandardHash.h"
+#include "main/header/RabinKarpSearch.h"
+#include "Text/FileNotFoundException.h"
+
+int main()
+{
+    try {
+        auto textProcessor = RabinKarpSearch("test.txt", "ipsum",
+        std::make_unique<StandardHash>());
+        for (auto i : textProcessor.search()) {
+            std::cout << i << std::endl;
+        }
+    } catch(FileNotFoundException &e) {std::cout<< e.what()<<std::endl;}
+    return 0;
+}
